@@ -63,6 +63,20 @@ let hub_main_props = {
 		this.draw();
 	},
 
+	set_index: function(i) {
+		if (!this.replay) {
+			i = 0;
+		} else {
+			if (i < 0) {
+				i = 0;
+			} else if (i >= this.replay.total_ticks()) {
+				i = this.replay.total_ticks() - 1;
+			}
+		}
+		this.index = i;
+		this.draw();
+	},
+
 	draw: function() {
 		draw(this.replay, this.index, this.canvas, this.infodiv, this.selection);
 	},

@@ -78,6 +78,10 @@ const kaggle_replay_props = {
 		return 48;
 	},
 
+	total_ticks: function() {
+		return this.r.steps.length;
+	},
+
 	cell_type: function(x, y) {
 		return this.map[x][y];
 	},
