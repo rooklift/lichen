@@ -5,22 +5,17 @@
 // the maximize but before hub has told us about it -- but meh.
 
 (function window_resize_spinner() {
+
 	if (!config.maxed) {
 		if (config.width !== window.innerWidth || config.height !== window.innerHeight) {
 			config.width = window.innerWidth;
 			config.height = window.innerHeight;
-			if (!hub.resize_time) {
-				hub.resize_time = performance.now();
-			}
-		}
-	}
-
-	if (hub.resize_time) {
-		if (performance.now() - hub.resize_time > 100) {
-			hub.resize_time = null;
 			hub.draw();
 		}
 	}
 
-	setTimeout(window_resize_spinner, 50);
+	// Note that toggling "maxed" also causes a draw(), in hub_settings.js
+
+	setTimeout(window_resize_spinner, 127);
+	
 })();

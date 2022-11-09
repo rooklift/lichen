@@ -19,8 +19,10 @@ module.exports = {
 
 		config[key] = value;
 
-		switch (key) {
-			// Followup actions go here.
+		switch (key) {				// Any needed followup actions.
+			case "maxed":
+				hub.draw();
+				break;
 		}
 
 		if (multichecks.hasOwnProperty(key)) {
