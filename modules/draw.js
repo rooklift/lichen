@@ -1,5 +1,7 @@
 "use strict";
 
+const types = require("./types");
+
 function draw(replay, index, canvas, infodiv, selection) {
 
 	canvas.height = window.innerHeight;
@@ -12,11 +14,30 @@ function draw(replay, index, canvas, infodiv, selection) {
 		return;
 	}
 
-	let square_size = calculate_square_size(canvas, 48, 48);
+	let cell_size = calculate_square_size(canvas, replay.width(), replay.height());
 
 	ctx.fillStyle = "#000000ff";
-	ctx.fillRect(0, 0, square_size * 48, square_size * 48);
+	ctx.fillRect(0, 0, cell_size * replay.width(), cell_size * replay.height());
 
+	for (let x = 0; x < replay.width(); x++) {
+		for (let y = 0; y < replay.height(); y++) {
+
+			let cell_type = replay.cell_type(x, y);
+
+			if (cell_type === types.NORMAL) {
+				ctx.fillStyle = "#060606ff";
+				ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
+			}
+			if (cell_type === types.ICE) {
+				ctx.fillStyle = "#3366ccff";
+				ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
+			}
+			if (cell_type === types.ORE) {
+				ctx.fillStyle = "#cc9966ff";
+				ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
+			}
+		}
+	}
 }
 
 function calculate_square_size(canvas, map_width, map_height) {

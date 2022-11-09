@@ -3,10 +3,12 @@
 const {ipcRenderer} = require("electron");
 
 // Uncaught exceptions should trigger an alert (once only)...
-
+// Disabled due to Electron 19 bug...
+/*
 window.addEventListener("error", (event) => {
 	alert("An uncaught exception happened in the renderer process. See the dev console for details. The app might now be in a bad state.");
 }, {once: true});
+*/
 
 // ------------------------------------------------------------------------------------------------
 
@@ -31,4 +33,29 @@ ipcRenderer.on("call", (event, msg) => {
 		console.log(msg);
 	}
 	fn();
+});
+
+// Dragging files onto the window should load them...
+
+window.addEventListener("dragenter", (event) => {		// Necessary to prevent brief flashes of "not allowed" icon.
+	event.preventDefault();
+});
+
+window.addEventListener("dragover", (event) => {		// Necessary to prevent always having the "not allowed" icon.
+	event.preventDefault();
+});
+
+window.addEventListener("drop", (event) => {
+	event.preventDefault();
+	let files = [];
+	if (event.dataTransfer && event.dataTransfer.files) {
+		for (let file of event.dataTransfer.files) {
+			if (file.path) {
+				files.push(file.path);
+			}
+		}
+	}
+	if (files.length > 0) {
+		hub.load(files[0]);
+	}
 });
