@@ -24,23 +24,17 @@ function draw(replay, index, canvas, infodiv, selection) {
 
 			let cell_type = replay.cell_type(x, y);
 
-			if (cell_type === types.NORMAL) {
-				let rubble = replay.cell_rubble(index, x, y);
-				if (rubble > 0) {
-					ctx.fillStyle = "#060606ff";
-				} else {
-					ctx.fillStyle = "#222222ff";
-				}
-				ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
-			}
-			if (cell_type === types.ICE) {
+			if (replay.cell_lichen(index, x, y) > 0) {
+				ctx.fillStyle = "#33cc33ff";
+			} else if (cell_type === types.NORMAL) {
+				ctx.fillStyle = replay.cell_rubble(index, x, y) > 0 ? "#060606ff" : "#222222ff";
+			} else if (cell_type === types.ICE) {
 				ctx.fillStyle = "#3366ccff";
-				ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
-			}
-			if (cell_type === types.ORE) {
+			} else if (cell_type === types.ORE) {
 				ctx.fillStyle = "#cc9966ff";
-				ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
 			}
+
+			ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
 		}
 	}
 }

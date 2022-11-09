@@ -9,14 +9,14 @@ function fixed_kaggle_replay(raw_replay) {
 	for (let step of ret.r.steps) {
 		step[0].observation.obs = JSON.parse(step[0].observation.obs);		// There's JSON in the JSON (the string is exactly what was sent to the bot I guess)
 	}
-	ret.make_map();
-	ret.make_rubble_maps();
+	ret.make_basic_map();
+	ret.make_full_maps();
 	return ret;
 }
 
 const kaggle_replay_props = {
 
-	make_map: function() {			// Called once, saving a 2d array giving the type of map cell (normal / ice / ore), which are unchangeable throughout the game.
+	make_basic_map: function() {		// Saves a 2d array with (normal / ice / ore), which are unchangeable throughout the game.
 
 		this.map = [];
 
@@ -39,30 +39,34 @@ const kaggle_replay_props = {
 		}
 	},
 
-	make_rubble_maps: function() {
+	make_full_maps: function() {		// Saves some 3d arrays of the things which change throughout the game.
 
-		this.rubble = [];
-		this.rubble.push(new_2d_array(this.width(), this.height(), 0));
+		let last_element = (arr) => arr[arr.length - 1];
 
-		for (let x = 0; x < this.width(); x++) {
-			for (let y = 0; y < this.height(); y++) {
-				this.rubble[0][x][y] = this.r.steps[0][0].observation.obs.board.rubble[y][x];
-			}
-		}
+		for (let key of ["rubble", "lichen", "lichen_strains"]) {
 
-		for (let step of this.r.steps.slice(1)) {
+			this[key] = [new_2d_array(this.width(), this.height(), 0)];
 
-			let new_rubble_map = copy_2d_array(this.rubble[this.rubble.length - 1]);
-			let rubble_update_object = step[0].observation.obs.board.rubble;
-
-			for (let key of Object.keys(rubble_update_object)) {
-				let [xs, ys] = key.split(",");
-				let [x, y] = [parseInt(xs, 10), parseInt(ys, 10)];
-				let val = rubble_update_object[key];
-				new_rubble_map[x][y] = val;
+			for (let x = 0; x < this.width(); x++) {
+				for (let y = 0; y < this.height(); y++) {
+					this[key][0][x][y] = this.r.steps[0][0].observation.obs.board[key][y][x];		// Translating from [y][x] to [x][y]
+				}
 			}
 
-			this.rubble.push(new_rubble_map);
+			for (let step of this.r.steps.slice(1)) {
+
+				let new_map = copy_2d_array(last_element(this[key]));
+				let update_object = step[0].observation.obs.board[key];
+
+				for (let k of Object.keys(update_object)) {
+					let [xs, ys] = k.split(",");
+					let [x, y] = [parseInt(xs, 10), parseInt(ys, 10)];
+					let val = update_object[k];
+					new_map[x][y] = val;
+				}
+
+				this[key].push(new_map);
+			}
 		}
 	},
 
@@ -81,6 +85,10 @@ const kaggle_replay_props = {
 	cell_rubble: function(i, x, y) {
 		return this.rubble[i][x][y];
 	},
+
+	cell_lichen: function(i, x, y) {
+		return this.lichen[i][x][y];
+	}
 
 };
 
