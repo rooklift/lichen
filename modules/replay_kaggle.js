@@ -1,7 +1,7 @@
 "use strict";
 
 const types = require("./types");
-const {new_2d_array} = require("./utils");
+const {copy_2d_array, new_2d_array} = require("./utils");
 
 function fixed_kaggle_replay(raw_replay) {
 	let ret = Object.create(kaggle_replay_props);
@@ -50,7 +50,20 @@ const kaggle_replay_props = {
 			}
 		}
 
-		// FIXME, need for every tick of the game.
+		for (let step of this.r.steps.slice(1)) {
+
+			let new_rubble_map = copy_2d_array(this.rubble[this.rubble.length - 1]);
+			let rubble_update_object = step[0].observation.obs.board.rubble;
+
+			for (let key of Object.keys(rubble_update_object)) {
+				let [xs, ys] = key.split(",");
+				let [x, y] = [parseInt(xs, 10), parseInt(ys, 10)];
+				let val = rubble_update_object[key];
+				new_rubble_map[x][y] = val;
+			}
+
+			this.rubble.push(new_rubble_map);
+		}
 	},
 
 	width: function() {
@@ -66,7 +79,7 @@ const kaggle_replay_props = {
 	},
 
 	cell_rubble: function(i, x, y) {
-		return this.rubble[0][x][y];				// FIXME - 0 should be i
+		return this.rubble[i][x][y];
 	},
 
 };

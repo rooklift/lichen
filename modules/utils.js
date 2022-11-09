@@ -23,6 +23,8 @@ exports.copy_2d_array = function(arr) {
 			ret[x].push(arr[x][y]);
 		}
 	}
+
+	return ret;
 };
 
 exports.new_2d_array = function(width, height, defval) {
