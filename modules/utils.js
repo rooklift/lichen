@@ -24,3 +24,17 @@ exports.copy_2d_array = function(arr) {
 		}
 	}
 };
+
+exports.new_2d_array = function(width, height, defval) {
+
+	let ret = [];
+
+	for (let x = 0; x < width; x++) {
+		ret.push([]);
+		for (let y = 0; y < height; y++) {
+			ret[x].push(defval);
+		}
+	}
+
+	return ret;
+};

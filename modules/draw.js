@@ -25,7 +25,12 @@ function draw(replay, index, canvas, infodiv, selection) {
 			let cell_type = replay.cell_type(x, y);
 
 			if (cell_type === types.NORMAL) {
-				ctx.fillStyle = "#060606ff";
+				let rubble = replay.cell_rubble(index, x, y);
+				if (rubble > 0) {
+					ctx.fillStyle = "#060606ff";
+				} else {
+					ctx.fillStyle = "#222222ff";
+				}
 				ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
 			}
 			if (cell_type === types.ICE) {
