@@ -2,6 +2,8 @@
 
 const types = require("./types");
 
+const team_colours = ["#ff0000ff", "#00ff00ff"];
+
 function draw(replay, index, canvas, infodiv, selection) {
 
 	canvas.height = window.innerHeight;
@@ -36,6 +38,12 @@ function draw(replay, index, canvas, infodiv, selection) {
 
 			ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
 		}
+	}
+
+	for (let unit of replay.get_units(index)) {
+		ctx.fillStyle = team_colours[unit.team_id];
+		let [x, y] = unit.pos;
+		ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
 	}
 
 	draw_info(replay, index, infodiv, selection);

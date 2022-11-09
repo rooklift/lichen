@@ -9,14 +9,14 @@ function fixed_kaggle_replay(raw_replay) {
 	for (let step of ret.r.steps) {
 		step[0].observation.obs = JSON.parse(step[0].observation.obs);		// There's JSON in the JSON (the string is exactly what was sent to the bot I guess)
 	}
-	ret.make_basic_map();
-	ret.make_full_maps();
+	ret.__make_basic_map();
+	ret.__make_full_maps();
 	return ret;
 }
 
 const kaggle_replay_props = {
 
-	make_basic_map: function() {		// Saves a 2d array with (normal / ice / ore), which are unchangeable throughout the game.
+	__make_basic_map: function() {		// Saves a 2d array with (normal / ice / ore), which are unchangeable throughout the game.
 
 		this.map = [];
 
@@ -39,7 +39,7 @@ const kaggle_replay_props = {
 		}
 	},
 
-	make_full_maps: function() {		// Saves some 3d arrays of the things which change throughout the game.
+	__make_full_maps: function() {		// Saves some 3d arrays of the things which change throughout the game.
 
 		let last_element = (arr) => arr[arr.length - 1];
 
@@ -92,7 +92,17 @@ const kaggle_replay_props = {
 
 	cell_lichen: function(i, x, y) {
 		return this.lichen[i][x][y];
-	}
+	},
+
+	get_units: function(i) {
+		let ret = [];
+		for (let player of Object.values(this.r.steps[i][0].observation.obs.units)) {
+			for (let unit of Object.values(player)) {
+				ret.push(unit);
+			}
+		}
+		return ret;
+	},
 
 };
 
