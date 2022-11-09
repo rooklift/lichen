@@ -37,6 +37,14 @@ function draw(replay, index, canvas, infodiv, selection) {
 			ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
 		}
 	}
+
+	draw_info(replay, index, infodiv, selection);
+}
+
+function draw_info(replay, index, infodiv, selection) {
+	let lines = [];
+	lines.push(`<br>Turn ${index}<br>`);
+	infodiv.innerHTML = lines.join("\n");
 }
 
 function calculate_square_size(canvas, map_width, map_height) {

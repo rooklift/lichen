@@ -77,6 +77,14 @@ let hub_main_props = {
 		this.draw();
 	},
 
+	backward: function(n) {
+		this.set_index(this.index - n);
+	},
+
+	forward: function(n) {
+		this.set_index(this.index + n);
+	},
+
 	draw: function() {
 		draw(this.replay, this.index, this.canvas, this.infodiv, this.selection);
 	},

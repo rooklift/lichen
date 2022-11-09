@@ -7,3 +7,13 @@ body {
 	padding: 0;
 	overflow: hidden;
 }
+
+#canvas {
+	float: left;
+	margin: 0 1em 0 0;
+}
+
+#info {
+	white-space: nowrap;
+	overflow: hidden;
+}
