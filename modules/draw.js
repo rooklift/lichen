@@ -2,7 +2,8 @@
 
 const types = require("./types");
 
-const team_colours = ["#ff0000ff", "#00ff00ff"];
+const team_colours = ["#ff0000ff", "#ff0000ff"];
+const factory_colours = ["#ffffffff", "#ffffffff"];
 
 function draw(replay, index, canvas, infodiv, selection) {
 
@@ -37,6 +38,16 @@ function draw(replay, index, canvas, infodiv, selection) {
 			}
 
 			ctx.fillRect(x * cell_size + 2, y * cell_size + 2, cell_size - 4, cell_size - 4);
+		}
+	}
+
+	for (let factory of replay.get_factories(index)) {
+		ctx.fillStyle = factory_colours[factory.team_id];
+		let [x, y] = factory.pos;
+		for (let i = x - 1; i <= x + 1; i++) {
+			for (let j = y - 1; j <= y + 1; j++) {
+				ctx.fillRect(i * cell_size + 2, j * cell_size + 2, cell_size - 4, cell_size - 4);
+			}
 		}
 	}
 

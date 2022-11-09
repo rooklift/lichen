@@ -104,6 +104,16 @@ const kaggle_replay_props = {
 		return ret;
 	},
 
+	get_factories: function(i) {
+		let ret = [];
+		for (let player of Object.values(this.r.steps[i][0].observation.obs.factories)) {
+			for (let fact of Object.values(player)) {
+				ret.push(fact);
+			}
+		}
+		return ret;
+	},
+
 };
 
 module.exports = {fixed_kaggle_replay};
