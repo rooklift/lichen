@@ -45,7 +45,7 @@ const kaggle_replay_props = {
 
 		for (let key of ["rubble", "lichen", "lichen_strains"]) {
 
-			this[key] = [new_2d_array(this.width(), this.height(), 0)];
+			this[key] = [new_2d_array(this.width(), this.height())];
 
 			for (let x = 0; x < this.width(); x++) {
 				for (let y = 0; y < this.height(); y++) {
@@ -58,11 +58,10 @@ const kaggle_replay_props = {
 				let new_map = copy_2d_array(last_element(this[key]));
 				let update_object = step[0].observation.obs.board[key];
 
-				for (let k of Object.keys(update_object)) {
+				for (let [k, v] of Object.entries(update_object)) {
 					let [xs, ys] = k.split(",");
 					let [x, y] = [parseInt(xs, 10), parseInt(ys, 10)];
-					let val = update_object[k];
-					new_map[x][y] = val;
+					new_map[x][y] = v;
 				}
 
 				this[key].push(new_map);
