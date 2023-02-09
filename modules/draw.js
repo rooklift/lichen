@@ -1,6 +1,6 @@
 "use strict";
 
-const types = require("./types");
+const {NORMAL, ICE, ORE, printable_action} = require("./types");
 
 const team_colours = ["#228be6ff", "#f03e3eff"];
 const factory_colours = ["#59a8ecff", "#f46e6eff"];
@@ -31,12 +31,12 @@ function draw(replay, index, canvas, infodiv, selection) {
 			if (replay.cell_lichen(index, x, y) > 0) {
 				let colour = lichen_colours[replay.lichen_owner(index, x, y)];
 				fill_cell(colour, ctx, cell_size, x, y);
-			} else if (cell_type === types.NORMAL) {
+			} else if (cell_type === NORMAL) {
 				let colour = replay.cell_rubble(index, x, y) > 0 ? "#cdcdcdff" : "#f4f4f4ff";
 				fill_cell(colour, ctx, cell_size, x, y);
-			} else if (cell_type === types.ICE) {
+			} else if (cell_type === ICE) {
 				fill_cell("#48dbfbff", ctx, cell_size, x, y);
-			} else if (cell_type === types.ORE) {
+			} else if (cell_type === ORE) {
 				fill_cell("#2c3e50ff", ctx, cell_size, x, y);
 			}
 		}
@@ -77,19 +77,24 @@ function fill_circle(colour, ctx, cell_size, x, y) {
 function draw_info(replay, index, infodiv, selection) {
 	let lines = [];
 	lines.push(`<br>Turn ${replay.real_step(index)}<br>`);
-
 	if (selection && selection.startsWith("unit_")) {
 		let unit = replay.get_unit_by_id(index, selection);
 		if (unit) {
 			lines.push(`<br>${selection} - ${unit.pos[0]},${unit.pos[1]}<br>`);
-			for (let action of unit.action_queue) {
-				lines.push(`<br>${JSON.stringify(action)}`);
+			let queue = unit.action_queue;
+			if (replay.unit_will_receive_request(index, unit.unit_id)) {
+				queue = replay.unit_request(index, unit.unit_id);
+				lines.push(`<br>New request issued:`);
+			} else {
+				lines.push(`<br>`);
+			}
+			for (let action of queue) {
+				lines.push(`<br>${printable_action(action)}`);
 			}
 		} else {
 			lines.push(`<br>${selection} - not present`);
 		}
 	}
-
 	infodiv.innerHTML = lines.join("\n");
 }
 

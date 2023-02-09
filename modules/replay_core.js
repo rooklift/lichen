@@ -155,15 +155,36 @@ const replay_prototype = {
 	},
 
 	get_unit_by_id: function(i, s) {
-		for (let unit of this.get_units(i)) {
-			if (unit.unit_id === s) {
-				return unit;
-			}
-		}
+		let p0_unit = this.observations[i].units.player_0[s];
+		if (p0_unit) return p0_unit;
+		let p1_unit = this.observations[i].units.player_1[s];
+		if (p1_unit) return p1_unit;
 		return null;
 	},
 
-}
+	unit_request: function(i, s) {
+		let unit = this.get_unit_by_id(i, s);
+		if (!unit) {
+			return null;
+		}
+		let request = this.actions[i][`player_${unit.team_id}`][unit.unit_id];
+		if (!request) {
+			return null;
+		}
+		return request;
+	},
+
+	unit_will_receive_request: function(i, s) {
+		let request = this.unit_request(i, s);
+		if (!request) {
+			console.log(false);
+			return false;
+		}
+		console.log(true);
+		return true;			// FIXME - need to check if unit has power to receive it.
+	},
+
+};
 
 
 module.exports = {new_replay};
