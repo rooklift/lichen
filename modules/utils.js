@@ -18,10 +18,7 @@ exports.copy_2d_array = function(arr) {
 	let height = arr[0].length;				// "really" in [x][y] or [y][x] format (we don't care here)
 
 	for (let x = 0; x < width; x++) {
-		ret.push([]);
-		for (let y = 0; y < height; y++) {
-			ret[x].push(arr[x][y]);
-		}
+		ret.push(Array.from(arr[x]));
 	}
 
 	return ret;
