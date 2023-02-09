@@ -81,11 +81,13 @@ function draw_info(replay, index, infodiv, selection) {
 		let unit = replay.get_unit_by_id(index, selection);
 		if (unit) {
 			lines.push(`<br>${selection} - ${unit.pos[0]},${unit.pos[1]}<br>`);
-			let queue = unit.action_queue;
-			if (replay.unit_will_receive_request(index, unit.unit_id)) {
-				queue = replay.unit_request(index, unit.unit_id);
+			let queue;
+			let request = replay.unit_request(index, unit.unit_id);
+			if (request) {
+				queue = request;
 				lines.push(`<br><span class="red">New request issued:</span>`);
 			} else {
+				queue = unit.action_queue;
 				lines.push(`<br>`);
 			}
 			for (let action of queue) {

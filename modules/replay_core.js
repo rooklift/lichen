@@ -174,14 +174,8 @@ const replay_prototype = {
 		return request;
 	},
 
-	unit_will_receive_request: function(i, s) {
-		let request = this.unit_request(i, s);
-		if (!request) {
-			console.log(false);
-			return false;
-		}
-		console.log(true);
-		return true;			// FIXME - need to check if unit has power to receive it.
+	unit_can_receive_request: function(i, s) {
+		// TODO - note that we won't care here whether there is a request.
 	},
 
 };
