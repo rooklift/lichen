@@ -29,16 +29,16 @@ function draw(replay, index, canvas, infodiv, selection) {
 			let cell_type = replay.cell_type(x, y);
 
 			if (replay.cell_lichen(index, x, y) > 0) {
-				ctx.fillStyle = lichen_colours[replay.lichen_owner(index, x, y)];
+				let colour = lichen_colours[replay.lichen_owner(index, x, y)];
+				fill_cell(colour, ctx, cell_size, x, y);
 			} else if (cell_type === types.NORMAL) {
-				ctx.fillStyle = replay.cell_rubble(index, x, y) > 0 ? "#cdcdcdff" : "#f4f4f4ff";
+				let colour = replay.cell_rubble(index, x, y) > 0 ? "#cdcdcdff" : "#f4f4f4ff";
+				fill_cell(colour, ctx, cell_size, x, y);
 			} else if (cell_type === types.ICE) {
-				ctx.fillStyle = "#48dbfbff";
+				fill_cell("#48dbfbff", ctx, cell_size, x, y);
 			} else if (cell_type === types.ORE) {
-				ctx.fillStyle = "#2c3e50ff";
+				fill_cell("#2c3e50ff", ctx, cell_size, x, y);
 			}
-
-			fill_cell(ctx, cell_size, x, y);
 		}
 	}
 
@@ -49,15 +49,15 @@ function draw(replay, index, canvas, infodiv, selection) {
 	}
 
 	for (let unit of replay.get_units(index)) {
-		ctx.fillStyle = team_colours[unit.team_id];
 		let [x, y] = unit.pos;
-		fill_cell(ctx, cell_size, x, y);
+		fill_cell(team_colours[unit.team_id], ctx, cell_size, x, y);
 	}
 
 	draw_info(replay, index, infodiv, selection);
 }
 
-function fill_cell(ctx, cell_size, x, y) {
+function fill_cell(colour, ctx, cell_size, x, y) {
+	ctx.fillStyle = colour;
 	ctx.fillRect(x * cell_size + 1, y * cell_size + 1, cell_size - 1, cell_size - 1);
 }
 
