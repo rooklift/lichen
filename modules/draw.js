@@ -17,13 +17,13 @@ function draw(replay, index, canvas, infodiv, selection) {
 		return;
 	}
 
-	let cell_size = calculate_square_size(canvas, replay.width(), replay.height());
+	let cell_size = calculate_square_size(canvas, replay.width, replay.height);
 
 	ctx.fillStyle = "#000000ff";
-	ctx.fillRect(0, 0, cell_size * replay.width(), cell_size * replay.height());
+	ctx.fillRect(0, 0, cell_size * replay.width, cell_size * replay.height);
 
-	for (let x = 0; x < replay.width(); x++) {
-		for (let y = 0; y < replay.height(); y++) {
+	for (let x = 0; x < replay.width; x++) {
+		for (let y = 0; y < replay.height; y++) {
 
 			let cell_type = replay.cell_type(x, y);
 

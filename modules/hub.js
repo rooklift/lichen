@@ -69,8 +69,8 @@ let hub_main_props = {
 		} else {
 			if (i < 0) {
 				i = 0;
-			} else if (i >= this.replay.total_ticks()) {
-				i = this.replay.total_ticks() - 1;
+			} else if (i >= this.replay.steps) {
+				i = this.replay.steps - 1;
 			}
 		}
 		this.index = i;
