@@ -1,0 +1,16 @@
+{
+	"browser": true,
+	"esversion": 6,
+	"loopfunc": true,
+	"node": true,
+	"sub": true,
+	"globals": {
+		"alert": true,
+		"canvas": true,
+		"config": true,
+		"hub": true
+	},
+	"unstable": {
+		"bigint": true
+	}
+}
