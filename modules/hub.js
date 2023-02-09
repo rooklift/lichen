@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const {ipcRenderer} = require("electron");
 
-const {draw} = require("./draw");
+const {draw, calculate_square_size} = require("./draw");
 const {fixed_kaggle_replay} = require("./replay_kaggle");
 const {fixed_local_replay} = require("./replay_local");
 const config_io = require("./config_io");
@@ -86,6 +86,26 @@ let hub_main_props = {
 		}
 		this.index = i;
 		this.draw();
+	},
+
+	click: function(cx, cy) {
+
+		if (!this.replay) {
+			return;
+		}
+
+		let cell_size = calculate_square_size(this.canvas, this.replay.width, this.replay.height);
+		let draw_width = cell_size * this.replay.width;
+		let draw_height = cell_size * this.replay.height;
+
+		let x = Math.floor((cx / draw_width) * this.replay.width);
+		let y = Math.floor((cy / draw_height) * this.replay.height);
+
+		if (x < 0 || x >= this.replay.width || y < 0 || y >= this.replay.height) {
+			return;
+		}
+
+		console.log(x, y);
 	},
 
 	backward: function(n) {
