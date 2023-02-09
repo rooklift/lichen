@@ -1,1 +1,1 @@
-My preferred organisation of a new Electron project, as of April 2022.
+WIP Lux (season 2) viewer.
