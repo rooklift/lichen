@@ -105,7 +105,8 @@ let hub_main_props = {
 			return;
 		}
 
-		console.log(x, y);
+		this.selection = hub.replay.what_is_at(this.index, x, y);
+		this.draw();
 	},
 
 	backward: function(n) {

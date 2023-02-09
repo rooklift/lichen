@@ -144,6 +144,25 @@ const replay_prototype = {
 		}
 		return null;
 	},
+
+	what_is_at: function(i, x, y) {					// For now, returns string or null.
+		for (let unit of this.get_units(i)) {
+			if (unit.pos[0] === x && unit.pos[1] === y) {
+				return unit.unit_id;
+			}
+		}
+		return null;
+	},
+
+	get_unit_by_id: function(i, s) {
+		for (let unit of this.get_units(i)) {
+			if (unit.unit_id === s) {
+				return unit;
+			}
+		}
+		return null;
+	},
+
 }
 
 

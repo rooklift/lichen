@@ -77,6 +77,16 @@ function fill_circle(colour, ctx, cell_size, x, y) {
 function draw_info(replay, index, infodiv, selection) {
 	let lines = [];
 	lines.push(`<br>Turn ${replay.real_step(index)}<br>`);
+
+	if (selection && selection.startsWith("unit_")) {
+		let unit = replay.get_unit_by_id(index, selection);
+		if (unit) {
+			lines.push(`<br>${selection} - ${unit.pos[0]},${unit.pos[1]}`);
+		} else {
+			lines.push(`<br>${selection} - not present`);
+		}
+	}
+
 	infodiv.innerHTML = lines.join("\n");
 }
 
