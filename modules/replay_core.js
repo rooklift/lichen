@@ -97,6 +97,10 @@ const replay_prototype = {
 		return this.lichen[i][x][y];
 	},
 
+	cell_lichen_strain: function(i, x, y) {
+		return this.lichen_strains[i][x][y];
+	},
+
 	get_units: function(i) {
 		let ret = [];
 		for (let player of Object.values(this.observations[i].units)) {
@@ -115,6 +119,24 @@ const replay_prototype = {
 			}
 		}
 		return ret;
+	},
+
+	lichen_owner: function(i, x, y) {
+		let strain = this.cell_lichen_strain(i, x, y);
+		if (strain === -1) {
+			return null;
+		}
+		for (let z of this.observations[i].teams.player_0.factory_strains) {
+			if (z === strain) {
+				return 0;
+			}
+		}
+		for (let z of this.observations[i].teams.player_1.factory_strains) {
+			if (z === strain) {
+				return 1;
+			}
+		}
+		return null;
 	},
 }
 

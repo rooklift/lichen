@@ -4,6 +4,7 @@ const types = require("./types");
 
 const team_colours = ["#228be6ff", "#f03e3eff"];
 const factory_colours = ["#59a8ecff", "#f46e6eff"];
+const lichen_colours = ["#c5ddf1ff", "#f4cbcbff"];
 
 function draw(replay, index, canvas, infodiv, selection) {
 
@@ -28,7 +29,7 @@ function draw(replay, index, canvas, infodiv, selection) {
 			let cell_type = replay.cell_type(x, y);
 
 			if (replay.cell_lichen(index, x, y) > 0) {
-				ctx.fillStyle = "#33cc33ff";
+				ctx.fillStyle = lichen_colours[replay.lichen_owner(index, x, y)];
 			} else if (cell_type === types.NORMAL) {
 				ctx.fillStyle = replay.cell_rubble(index, x, y) > 0 ? "#cdcdcdff" : "#f4f4f4ff";
 			} else if (cell_type === types.ICE) {
