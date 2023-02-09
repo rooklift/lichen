@@ -11,7 +11,17 @@ function fixed_kaggle_replay(r) {
 	let ret = new_replay(steps, size, size);
 
 	let all_observations = r.steps.map(foo => JSON.parse(foo[0].observation.obs));
-	ret.init(all_observations);
+
+	let all_actions = r.steps.map(foo => {		// For actions, lets prefer the local format I guess...
+		return {
+			"player_0": foo[0].action,
+			"player_1": foo[1].action,
+		};
+	});
+
+	all_actions = all_actions.slice(1);			// Kaggle actions are out-of-place by 1 for whatever reason.
+
+	ret.init(all_observations, all_actions);
 	return ret;
 }
 

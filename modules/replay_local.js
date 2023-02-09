@@ -10,7 +10,7 @@ function fixed_local_replay(r) {
 
 	let ret = new_replay(steps, size, size);
 
-	ret.init(r.observations);
+	ret.init(r.observations, r.actions);
 	return ret;
 }
 
