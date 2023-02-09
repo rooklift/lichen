@@ -17,9 +17,9 @@ function new_replay(steps, width, height, name_0, name_1) {
 	ret.actions = null;
 
 	ret.map = new_2d_array(width, height, null);				// 2d array of NORMAL / ORE / ICE (never changes)
-	ret.rubble = [new_2d_array(width, height, null)];			// 3d arrays
-	ret.lichen = [new_2d_array(width, height, null)];
-	ret.lichen_strains = [new_2d_array(width, height, null)];
+	ret.rubble = [];											// 3d arrays
+	ret.lichen = [];
+	ret.lichen_strains = [];
 
 	return ret;
 }
@@ -45,6 +45,10 @@ const replay_prototype = {
 		});
 
 		// Set the initial maps of rubble, lichen, and strains. Also set the unchanging map of NORMAL / ICE / ORE.
+
+		this.rubble.push(new_2d_array(this.width, this.height, null));
+		this.lichen.push(new_2d_array(this.width, this.height, null));
+		this.lichen_strains.push(new_2d_array(this.width, this.height, null));
 
 		let board_zero = all_observations[0].board;
 
