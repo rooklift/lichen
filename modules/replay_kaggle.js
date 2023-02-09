@@ -25,10 +25,10 @@ const kaggle_replay_props = {
 			for (let y = 0; y < this.height(); y++) {
 
 				let cell_type = types.NORMAL;
-				if (this.r.steps[0][0].observation.obs.board.ice[y][x]) {		// Translating from [y][x] to [x][y]
+				if (this.r.steps[0][0].observation.obs.board.ice[x][y]) {
 					cell_type = types.ICE;
 				}
-				if (this.r.steps[0][0].observation.obs.board.ore[y][x]) {		// Translating from [y][x] to [x][y]
+				if (this.r.steps[0][0].observation.obs.board.ore[x][y]) {
 					cell_type = types.ORE;
 				}
 
@@ -49,7 +49,7 @@ const kaggle_replay_props = {
 
 			for (let x = 0; x < this.width(); x++) {
 				for (let y = 0; y < this.height(); y++) {
-					this[key][0][x][y] = this.r.steps[0][0].observation.obs.board[key][y][x];		// Translating from [y][x] to [x][y]
+					this[key][0][x][y] = this.r.steps[0][0].observation.obs.board[key][x][y];
 				}
 			}
 
