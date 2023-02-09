@@ -62,7 +62,7 @@ function draw(replay, index, canvas, infodiv, selection) {
 
 function draw_info(replay, index, infodiv, selection) {
 	let lines = [];
-	lines.push(`<br>Turn ${index}<br>`);
+	lines.push(`<br>Turn ${replay.real_step(index)}<br>`);
 	infodiv.innerHTML = lines.join("\n");
 }
 

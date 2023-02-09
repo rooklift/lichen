@@ -69,6 +69,10 @@ const replay_prototype = {
 		}
 	},
 
+	real_step: function(i) {
+		return this.observations[i].real_env_steps;
+	},
+
 	cell_type: function(x, y) {
 		return this.map[x][y];
 	},
