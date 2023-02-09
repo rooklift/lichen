@@ -57,6 +57,23 @@ function draw(replay, index, canvas, infodiv, selection) {
 		}
 	}
 
+	if (selection && selection.startsWith("unit_")) {
+		let unit = replay.get_unit_by_id(index, selection);
+		if (unit) {
+			let [x, y] = unit.pos;
+			ctx.strokeStyle = "#000000ff";
+			let gx = x * cell_size + (cell_size / 2) + 0.5;
+			let gy = y * cell_size + (cell_size / 2) + 0.5;
+			ctx.beginPath();
+			ctx.moveTo(0, gy);
+			ctx.lineTo(cell_size * replay.width, gy);
+			ctx.stroke();
+			ctx.moveTo(gx, 0);
+			ctx.lineTo(gx, cell_size * replay.width);
+			ctx.stroke();
+		}
+	}
+
 	draw_info(replay, index, infodiv, selection);
 }
 
@@ -80,7 +97,7 @@ function draw_info(replay, index, infodiv, selection) {
 	if (selection && selection.startsWith("unit_")) {
 		let unit = replay.get_unit_by_id(index, selection);
 		if (unit) {
-			lines.push(`<br>${selection} - ${unit.pos[0]},${unit.pos[1]}<br>`);
+			lines.push(`<br><span class="player_${unit.team_id}">${selection}</span> - ${unit.pos[0]},${unit.pos[1]}<br>`);
 			let queue;
 			let request = replay.unit_request(index, unit.unit_id);
 			if (request) {
