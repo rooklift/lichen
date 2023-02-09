@@ -5,6 +5,7 @@ const {ipcRenderer} = require("electron");
 
 const {draw} = require("./draw");
 const {fixed_kaggle_replay} = require("./replay_kaggle");
+const {fixed_local_replay} = require("./replay_local");
 const config_io = require("./config_io");
 
 function init() {
@@ -56,7 +57,11 @@ let hub_main_props = {
 
 		// TODO - some further validation here.
 
-		this.replay = fixed_kaggle_replay(o);
+		if (o.actions) {
+			this.replay = fixed_local_replay(o);
+		} else {
+			this.replay = fixed_kaggle_replay(o);
+		}
 		this.index = 0;
 		this.selection = null;
 
