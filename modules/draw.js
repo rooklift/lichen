@@ -50,7 +50,11 @@ function draw(replay, index, canvas, infodiv, selection) {
 
 	for (let unit of replay.get_units(index)) {
 		let [x, y] = unit.pos;
-		fill_cell(team_colours[unit.team_id], ctx, cell_size, x, y);
+		if (unit.unit_type === "HEAVY") {
+			fill_cell(team_colours[unit.team_id], ctx, cell_size, x, y);
+		} else {
+			fill_circle(team_colours[unit.team_id], ctx, cell_size, x, y);
+		}
 	}
 
 	draw_info(replay, index, infodiv, selection);
@@ -59,6 +63,15 @@ function draw(replay, index, canvas, infodiv, selection) {
 function fill_cell(colour, ctx, cell_size, x, y) {
 	ctx.fillStyle = colour;
 	ctx.fillRect(x * cell_size + 1, y * cell_size + 1, cell_size - 1, cell_size - 1);
+}
+
+function fill_circle(colour, ctx, cell_size, x, y) {
+	ctx.fillStyle = colour;
+	let gx = x * cell_size + (cell_size / 2) + 0.5;
+	let gy = y * cell_size + (cell_size / 2) + 0.5;
+	ctx.beginPath();
+	ctx.arc(gx, gy, cell_size / 2 - 2, 0, 2 * Math.PI);
+	ctx.fill();
 }
 
 function draw_info(replay, index, infodiv, selection) {
