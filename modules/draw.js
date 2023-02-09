@@ -93,11 +93,18 @@ function fill_circle(colour, ctx, cell_size, x, y) {
 
 function draw_info(replay, index, infodiv, selection) {
 	let lines = [];
-	lines.push(`<br>Turn ${replay.real_step(index)}<br>`);
+	lines.push(`<br>Turn ${replay.real_step(index)}`);
+	lines.push(`<br>`);
 	if (selection && selection.startsWith("unit_")) {
 		let unit = replay.get_unit_by_id(index, selection);
 		if (unit) {
-			lines.push(`<br><span class="player_${unit.team_id}">${selection}</span> - ${unit.pos[0]},${unit.pos[1]}<br>`);
+			lines.push(`<br><span class="player_${unit.team_id}">${selection}</span> &nbsp; [${unit.pos[0]},${unit.pos[1]}]`);
+			lines.push(`<br>` +
+				`<span class="power">pwr: ${unit.power}</span> &nbsp;` +
+				`<span class="ice">ice: ${unit.cargo.ice}</span> &nbsp;` +
+				`<span class="ore">ore: ${unit.cargo.ore}</span>`
+			);
+			lines.push(`<br>`);
 			let queue;
 			let request = replay.unit_request(index, unit.unit_id);
 			if (request) {
@@ -111,7 +118,7 @@ function draw_info(replay, index, infodiv, selection) {
 				lines.push(`<br>${printable_action(action)}`);
 			}
 			if (request && !replay.unit_can_receive_request(index, unit.unit_id)) {
-				lines.push(`<br><span class="yellow">Unit cannot receive this request!</span>`);
+				lines.push(`<br><span class="warning">Unit cannot receive this request!</span>`);
 			}
 		} else {
 			lines.push(`<br>${selection} - not present`);

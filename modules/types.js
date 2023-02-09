@@ -27,19 +27,19 @@ const resources = ["ice", "ore", "water", "metal", "power"];
 function printable_action(action) {
 
 	if (action[0] === MOVE) {
-		return `Move ${directions[action[1]]} ${action[5]}`;
+		return `Move ${directions[action[1]]} ${action[5]} ${action[4] ? "r" : ""}`;
 	}
 
 	if (action[0] === TRANSFER) {
-		return `Transfer ${action[3]} ${resources[action[2]]} ${directions[action[1]]}`;
+		return `Transfer ${action[3]} ${resources[action[2]]} ${directions[action[1]]} ${action[4] ? "r" : ""}`;
 	}
 
 	if (action[0] === PICKUP) {
-		return `Pickup ${action[3]} ${resources[action[2]]}`;
+		return `Pickup ${action[3]} ${resources[action[2]]} ${action[4] ? "r" : ""}`;
 	}
 
 	if (action[0] === DIG) {
-		return `Dig ${action[5]}`;
+		return `Dig ${action[5]} ${action[4] ? "r" : ""}`;
 	}
 
 	if (action[0] === SELFDESTRUCT) {
@@ -47,7 +47,7 @@ function printable_action(action) {
 	}
 
 	if (action[0] === RECHARGE) {
-		return `Recharge ${action[3]}`;
+		return `Recharge ${action[3]} ${action[4] ? "r" : ""}`;
 	}
 
 	return "??";
