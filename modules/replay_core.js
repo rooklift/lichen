@@ -145,6 +145,10 @@ const replay_prototype = {
 		return null;
 	},
 
+	cfg: function() {
+		return require("./env_cfg");				// TODO - if present in the replay, use it instead.
+	},
+
 	what_is_at: function(i, x, y) {					// For now, returns string or null.
 		for (let unit of this.get_units(i)) {
 			if (unit.pos[0] === x && unit.pos[1] === y) {
@@ -174,8 +178,15 @@ const replay_prototype = {
 		return request;
 	},
 
-	unit_can_receive_request: function(i, s) {
-		// TODO - note that we won't care here whether there is a request.
+	unit_can_receive_request: function(i, s) {		// Note that we won't care here whether there is a request.
+		let unit = this.get_unit_by_id(i, s);
+		if (!unit) {
+			return false;
+		}
+		if (unit.power >= this.cfg().ROBOTS[unit.unit_type].ACTION_QUEUE_POWER_COST) {
+			return true;
+		}
+		return false;
 	},
 
 };

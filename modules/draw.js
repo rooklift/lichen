@@ -85,13 +85,16 @@ function draw_info(replay, index, infodiv, selection) {
 			let request = replay.unit_request(index, unit.unit_id);
 			if (request) {
 				queue = request;
-				lines.push(`<br><span class="red">New request issued:</span>`);
+				lines.push(`<br><span class="player_${unit.team_id}">New request issued:</span>`);
 			} else {
 				queue = unit.action_queue;
 				lines.push(`<br>`);
 			}
 			for (let action of queue) {
 				lines.push(`<br>${printable_action(action)}`);
+			}
+			if (request && !replay.unit_can_receive_request(index, unit.unit_id)) {
+				lines.push(`<br><span class="yellow">Unit cannot receive this request!</span>`);
 			}
 		} else {
 			lines.push(`<br>${selection} - not present`);

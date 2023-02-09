@@ -18,6 +18,14 @@ body {
 	overflow: hidden;
 }
 
-.red {
+.player_0 {
+	color: #88ccffff;
+}
+
+.player_1 {
 	color: #ff8888ff;
+}
+
+.yellow {
+	color: #ffff88ff;
 }
