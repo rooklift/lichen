@@ -37,23 +37,27 @@ function draw(replay, index, canvas, infodiv, selection) {
 				ctx.fillStyle = "#2c3e50ff";
 			}
 
-			ctx.fillRect(x * cell_size + 1, y * cell_size + 1, cell_size - 2, cell_size - 2);
+			fill_cell(ctx, cell_size, x, y);
 		}
 	}
 
 	for (let factory of replay.get_factories(index)) {
 		ctx.fillStyle = factory_colours[factory.team_id];
 		let [x, y] = factory.pos;
-		ctx.fillRect((x - 1) * cell_size + 1, (y - 1) * cell_size + 1, cell_size * 3 - 2, cell_size * 3 - 2);
+		ctx.fillRect((x - 1) * cell_size + 1, (y - 1) * cell_size + 1, cell_size * 3 - 1, cell_size * 3 - 1);
 	}
 
 	for (let unit of replay.get_units(index)) {
 		ctx.fillStyle = team_colours[unit.team_id];
 		let [x, y] = unit.pos;
-		ctx.fillRect(x * cell_size + 1, y * cell_size + 1, cell_size - 2, cell_size - 2);
+		fill_cell(ctx, cell_size, x, y);
 	}
 
 	draw_info(replay, index, infodiv, selection);
+}
+
+function fill_cell(ctx, cell_size, x, y) {
+	ctx.fillRect(x * cell_size + 1, y * cell_size + 1, cell_size - 1, cell_size - 1);
 }
 
 function draw_info(replay, index, infodiv, selection) {

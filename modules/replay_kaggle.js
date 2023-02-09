@@ -14,8 +14,8 @@ function fixed_kaggle_replay(r) {
 
 	let all_actions = r.steps.map(foo => {		// For actions, lets prefer the local format I guess...
 		return {
-			"player_0": foo[0].action,
-			"player_1": foo[1].action,
+			player_0: foo[0].action,
+			player_1: foo[1].action,
 		};
 	});
 

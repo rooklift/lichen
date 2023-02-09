@@ -37,6 +37,11 @@ const replay_prototype = {
 		this.observations = all_observations;
 		this.actions = all_actions;
 
+		this.actions.push({					// Just so the final frame has an actions object.
+			player_0: {},
+			player_1: {},
+		});
+
 		// Set the initial maps of rubble, lichen, and strains. Also set the unchanging map of NORMAL / ICE / ORE.
 
 		let board_zero = all_observations[0].board;
