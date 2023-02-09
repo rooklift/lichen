@@ -1,6 +1,7 @@
 "use strict";
 
 const fs = require("fs");
+const path = require("path");
 const {ipcRenderer} = require("electron");
 
 const {draw} = require("./draw");
@@ -32,6 +33,8 @@ let hub_main_props = {
 	},
 
 	load: function(filepath) {
+
+		let starttime = performance.now();
 
 		if (filepath === __dirname || filepath === ".") {		// Can happen when extra args are passed to main process. Silently return.
 			return;
@@ -67,6 +70,8 @@ let hub_main_props = {
 
 		ipcRenderer.send("set_title", `${this.replay.name_0} vs ${this.replay.name_1}`);
 		this.draw();
+
+		console.log(`Loaded ${path.basename(filepath)} in ${((performance.now() - starttime) / 1000).toFixed(1)} seconds.`);
 	},
 
 	set_index: function(i) {
