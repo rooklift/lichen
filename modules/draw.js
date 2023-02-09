@@ -81,7 +81,10 @@ function draw_info(replay, index, infodiv, selection) {
 	if (selection && selection.startsWith("unit_")) {
 		let unit = replay.get_unit_by_id(index, selection);
 		if (unit) {
-			lines.push(`<br>${selection} - ${unit.pos[0]},${unit.pos[1]}`);
+			lines.push(`<br>${selection} - ${unit.pos[0]},${unit.pos[1]}<br>`);
+			for (let action of unit.action_queue) {
+				lines.push(`<br>${JSON.stringify(action)}`);
+			}
 		} else {
 			lines.push(`<br>${selection} - not present`);
 		}
