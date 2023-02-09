@@ -187,7 +187,7 @@ function menu_build() {
 			submenu: [
 				{
 					label: "Backward",
-					accelerator: "Up",
+					accelerator: "Left",
 					click: () => {
 						win.webContents.send("call", {
 							fn: "backward",
@@ -197,7 +197,7 @@ function menu_build() {
 				},
 				{
 					label: "Forward",
-					accelerator: "Down",
+					accelerator: "Right",
 					click: () => {
 						win.webContents.send("call", {
 							fn: "forward",
