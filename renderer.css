@@ -17,3 +17,7 @@ body {
 	white-space: nowrap;
 	overflow: hidden;
 }
+
+.red {
+	color: #ff8888ff;
+}
