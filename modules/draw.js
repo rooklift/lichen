@@ -70,7 +70,7 @@ function fill_circle(colour, ctx, cell_size, x, y) {
 	let gx = x * cell_size + (cell_size / 2) + 0.5;
 	let gy = y * cell_size + (cell_size / 2) + 0.5;
 	ctx.beginPath();
-	ctx.arc(gx, gy, cell_size / 2 - 2, 0, 2 * Math.PI);
+	ctx.arc(gx, gy, Math.max(cell_size / 2 - 2, 1), 0, 2 * Math.PI);
 	ctx.fill();
 }
 
