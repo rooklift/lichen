@@ -16,12 +16,14 @@ let win;											// Need to keep global references to every window we make. (I
 
 electron.app.whenReady().then(() => {
 
+	electron.nativeTheme.themeSource = "light";
+
 	let desired_zoomfactor = 1 / electron.screen.getPrimaryDisplay().scaleFactor;
 
 	win = new electron.BrowserWindow({
 		width: Math.round(config.width * desired_zoomfactor),
 		height: Math.round(config.height * desired_zoomfactor),
-		backgroundColor: "#000000",
+		backgroundColor: "#ffffffff",
 		resizable: true,
 		show: false,
 		useContentSize: true,
@@ -152,7 +154,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Open stateful replay...",
+					label: "Open replay...",
 					accelerator: "CommandOrControl+O",
 					click: () => {
 						electron.dialog.showOpenDialog(win, {defaultPath: config.open_folder})
@@ -166,6 +168,9 @@ function menu_build() {
 							}
 						});
 					}
+				},
+				{
+					type: "separator",
 				},
 				{
 					role: "toggledevtools"
