@@ -7,8 +7,8 @@ function fixed_kaggle_replay(r) {
 
 	let steps = r.steps.length;
 	let size = r.configuration.env_cfg.map_size;
-	
-	let ret = new_replay(steps, size, size);
+	let name_0 = r.info.TeamNames[0];
+	let name_1 = r.info.TeamNames[1];
 
 	let all_observations = r.steps.map(foo => JSON.parse(foo[0].observation.obs));
 
@@ -21,6 +21,7 @@ function fixed_kaggle_replay(r) {
 
 	all_actions = all_actions.slice(1);			// Kaggle actions are out-of-place by 1 for whatever reason.
 
+	let ret = new_replay(steps, size, size, name_0, name_1);
 	ret.init(all_observations, all_actions);
 	return ret;
 }

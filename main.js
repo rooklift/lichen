@@ -95,6 +95,10 @@ electron.app.whenReady().then(() => {
 		// This is the place to load any files given on command line.
 	});
 
+	electron.ipcMain.on("set_title", (event, msg) => {
+		win.setTitle(msg);
+	});
+
 	electron.ipcMain.on("alert", (event, msg) => {
 		alert(win, msg);
 	});

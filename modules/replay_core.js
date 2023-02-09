@@ -3,13 +3,15 @@
 const types = require("./types");
 const {new_2d_array, copy_2d_array} = require("./utils");
 
-function new_replay(steps, width, height) {
+function new_replay(steps, width, height, name_0, name_1) {
 
 	let ret = Object.create(replay_prototype);
 
 	ret.steps = steps;
 	ret.width = width;
 	ret.height = height;
+	ret.name_0 = name_0;
+	ret.name_1 = name_1;
 
 	ret.observations = null;
 	ret.actions = null;

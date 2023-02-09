@@ -65,6 +65,7 @@ let hub_main_props = {
 		this.index = 0;
 		this.selection = null;
 
+		ipcRenderer.send("set_title", `${this.replay.name_0} vs ${this.replay.name_1}`);
 		this.draw();
 	},
 
