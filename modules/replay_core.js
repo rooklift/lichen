@@ -1,6 +1,6 @@
 "use strict";
 
-const types = require("./types");
+const {NORMAL, ICE, ORE, new_selection} = require("./types");
 const {new_2d_array, copy_2d_array} = require("./utils");
 
 function new_replay(steps, width, height, name_0, name_1) {
@@ -60,11 +60,11 @@ const replay_prototype = {
 				this.lichen_strains[0][x][y] = board_zero.lichen_strains[x][y];
 
 				if (board_zero.ice[x][y] > 0) {
-					this.map[x][y] = types.ICE;
+					this.map[x][y] = ICE;
 				} else if (board_zero.ore[x][y] > 0) {
-					this.map[x][y] = types.ORE;
+					this.map[x][y] = ORE;
 				} else {
-					this.map[x][y] = types.NORMAL;
+					this.map[x][y] = NORMAL;
 				}
 			}
 		}
@@ -197,18 +197,18 @@ const replay_prototype = {
 		return true;
 	},
 
-	what_is_at: function(i, x, y) {					// For now, returns string.
+	what_is_at: function(i, x, y) {
 		for (let unit of this.get_units(i)) {
 			if (unit.pos[0] === x && unit.pos[1] === y) {
-				return unit.unit_id;
+				return new_selection("unit", unit.unit_id, i, x, y);
 			}
 		}
 		for (let factory of this.get_factories(i)) {
 			if (factory.pos[0] >= x - 1 && factory.pos[0] <= x + 1 && factory.pos[1] >= y - 1 && factory.pos[1] <= y + 1) {
-				return factory.unit_id;
+				return new_selection("factory", factory.unit_id, i, x, y);
 			}
 		}
-		return `${x},${y}`;
+		return new_selection("tile", "tile", i, x, y);
 	},
 
 	lichen_scores: function(i) {

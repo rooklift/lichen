@@ -54,7 +54,12 @@ function printable_action(action) {
 }
 
 
+function new_selection(type, name, i, x, y) {
+	return {type, name, i, x, y};
+}
+
+
 module.exports = {
 	NORMAL, ICE, ORE,
-	printable_action,
+	printable_action, new_selection
 };

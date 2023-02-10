@@ -77,24 +77,26 @@ function draw(replay, index, canvas, infodiv, selection) {
 
 	if (selection) {
 		let thing;
-		if (selection.startsWith("unit_")) {
-			thing = replay.get_unit_by_id(index, selection);
-		} else if (selection.startsWith("factory_")) {
-			thing = replay.get_factory_by_id(index, selection);
+		if (selection.type === "unit") {
+			thing = replay.get_unit_by_id(index, selection.name);
+		} else if (selection.type === "factory") {
+			thing = replay.get_factory_by_id(index, selection.name);
 		} else {
-			thing = {pos: selection.split(",").map(s => parseInt(s, 10))};
+			thing = {pos: [selection.x, selection.y]};
 		}
-		let [x, y] = thing.pos;
-		ctx.strokeStyle = "#000000ff";
-		let gx = x * cell_size + (cell_size / 2) + 0.5;
-		let gy = y * cell_size + (cell_size / 2) + 0.5;
-		ctx.beginPath();
-		ctx.moveTo(0, gy);
-		ctx.lineTo(cell_size * replay.width, gy);
-		ctx.stroke();
-		ctx.moveTo(gx, 0);
-		ctx.lineTo(gx, cell_size * replay.width);
-		ctx.stroke();
+		if (thing) {
+			let [x, y] = thing.pos;
+			ctx.strokeStyle = "#000000ff";
+			let gx = x * cell_size + (cell_size / 2) + 0.5;
+			let gy = y * cell_size + (cell_size / 2) + 0.5;
+			ctx.beginPath();
+			ctx.moveTo(0, gy);
+			ctx.lineTo(cell_size * replay.width, gy);
+			ctx.stroke();
+			ctx.moveTo(gx, 0);
+			ctx.lineTo(gx, cell_size * replay.width);
+			ctx.stroke();
+		}
 	}
 
 	draw_info(replay, index, infodiv, selection);
@@ -126,21 +128,21 @@ function draw_info(replay, index, infodiv, selection) {
 	}
 	lines.push(``);
 	if (selection) {
-		if (selection.startsWith("unit_")) {
-			let unit = replay.get_unit_by_id(index, selection);
+		if (selection.type === "unit") {
+			let unit = replay.get_unit_by_id(index, selection.name);
 			if (unit) {
 				lines = lines.concat(unit_info_lines(replay, index, unit));
 			} else {
-				lines.push(`${selection} - not present`);
+				lines.push(`${selection.name} - not present`);
 			}
-		} else if (selection.startsWith("factory_")) {
-			let factory = replay.get_factory_by_id(index, selection);
+		} else if (selection.type === "factory") {
+			let factory = replay.get_factory_by_id(index, selection.name);
 			if (factory) {
 				lines = lines.concat(factory_info_lines(replay, index, factory));
 			} else {
-				lines.push(`${selection} - not present`);
+				lines.push(`${selection.name} - not present`);
 			}
-		} else {
+		} else if (selection.type === "tile") {
 			lines = lines.concat(cell_info_lines(replay, index, selection));
 		}
 	}
@@ -189,11 +191,11 @@ function factory_info_lines(replay, index, factory) {
 	return lines;
 }
 
-function cell_info_lines(replay, index, cell_string) {
+function cell_info_lines(replay, index, selection) {
 
 	let lines = [];
 
-	let [x, y] = cell_string.split(",").map(s => parseInt(s, 10));
+	let {x, y} = selection;
 
 	let rubble = replay.cell_rubble(index, x, y);
 

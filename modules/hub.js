@@ -16,7 +16,7 @@ function init() {
 
 	ret.replay = null;
 	ret.index = 0;
-	ret.selection = "";
+	ret.selection = null;
 	ret.canvas = document.getElementById("canvas");
 	ret.infodiv = document.getElementById("info");
 
