@@ -131,6 +131,8 @@ function draw_info(replay, index, infodiv, selection) {
 		if (selection.type === "unit") {
 			let unit = replay.get_unit_by_id(index, selection.name);
 			if (unit) {
+				lines = lines.concat(cell_info_lines(replay, index, {x: unit.pos[0], y: unit.pos[1]}));
+				lines.push(``);
 				lines = lines.concat(unit_info_lines(replay, index, unit));
 			} else {
 				lines.push(`${selection.name} - not present`);
@@ -138,6 +140,8 @@ function draw_info(replay, index, infodiv, selection) {
 		} else if (selection.type === "factory") {
 			let factory = replay.get_factory_by_id(index, selection.name);
 			if (factory) {
+				lines = lines.concat(cell_info_lines(replay, index, {x: factory.pos[0], y: factory.pos[1]}));
+				lines.push(``);
 				lines = lines.concat(factory_info_lines(replay, index, factory));
 			} else {
 				lines.push(`${selection.name} - not present`);
@@ -153,11 +157,8 @@ function unit_info_lines(replay, index, unit) {
 
 	let lines = [];
 
-	lines.push(`<span class="player_${unit.team_id}">${unit.unit_id}</span> &nbsp; ` +
-				`<span class="power">⚡${unit.power}</span> &nbsp; [${unit.pos[0]},${unit.pos[1]}]`);
-	lines.push(
-		`🧊${unit.cargo.ice} &nbsp; 🌑${unit.cargo.ore} &nbsp; 💧${unit.cargo.water} &nbsp; ⚙️${unit.cargo.metal}`
-	);
+	lines.push(`<span class="player_${unit.team_id}">${unit.unit_id}</span> &nbsp; <span class="power">⚡${unit.power}</span>`);
+	lines.push(`🧊${unit.cargo.ice} &nbsp; 🌑${unit.cargo.ore} &nbsp; 💧${unit.cargo.water} &nbsp; ⚙️${unit.cargo.metal}`);
 	lines.push(``);
 	let queue;
 	let request = replay.unit_request(index, unit.unit_id);
@@ -179,32 +180,26 @@ function unit_info_lines(replay, index, unit) {
 }
 
 function factory_info_lines(replay, index, factory) {
-
 	let lines = [];
-
-	lines.push(`<span class="player_${factory.team_id}">${factory.unit_id}</span> &nbsp; ` +
-				`<span class="power">⚡${factory.power}</span> &nbsp; [${factory.pos[0]},${factory.pos[1]}]`);
-	lines.push(
-		`🧊${factory.cargo.ice} &nbsp; 🌑${factory.cargo.ore} &nbsp; 💧${factory.cargo.water} &nbsp; ⚙️${factory.cargo.metal}`
-	);
-
+	lines.push(`<span class="player_${factory.team_id}">${factory.unit_id}</span> &nbsp; <span class="power">⚡${factory.power}</span>`);
+	lines.push(`🧊${factory.cargo.ice} &nbsp; 🌑${factory.cargo.ore} &nbsp; 💧${factory.cargo.water} &nbsp; ⚙️${factory.cargo.metal}`);
 	return lines;
 }
 
-function cell_info_lines(replay, index, selection) {
+function cell_info_lines(replay, index, xy_haver) {
 
 	let lines = [];
 
-	let {x, y} = selection;
+	let {x, y} = xy_haver;
 
 	let rubble = replay.cell_rubble(index, x, y);
 
 	if (replay.cell_type(x, y) === ICE) {
-		lines.push(`Ice &nbsp; [${x},${y}] &nbsp; ${rubble} rubble`);
+		lines.push(`[${x},${y}] &nbsp; Ice, ${rubble} rubble`);
 	} else if (replay.cell_type(x, y) === ORE) {
-		lines.push(`Ore &nbsp; [${x},${y}] &nbsp; ${rubble} rubble`);
+		lines.push(`[${x},${y}] &nbsp; Ore, ${rubble} rubble`);
 	} else {
-		lines.push(`Tile &nbsp; [${x},${y}] &nbsp; ${rubble} rubble`);
+		lines.push(`[${x},${y}] &nbsp; ${rubble} rubble`);
 	}
 
 	return lines;
