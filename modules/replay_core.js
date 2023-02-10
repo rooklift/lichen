@@ -177,11 +177,11 @@ const replay_prototype = {
 	unit_request: function(i, s) {
 		let unit = this.get_unit_by_id(i, s);
 		if (!unit) {
-			return [];
+			return null;
 		}
 		let request = this.actions[i][`player_${unit.team_id}`][unit.unit_id];
 		if (!request) {
-			return [];
+			return null;
 		}
 		return request;
 	},
