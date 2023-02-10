@@ -7,18 +7,10 @@ const water_colour = "#48dbfbff";
 
 const team_colours = ["#228be6ff", "#f03e3eff"];
 const factory_colours = ["#59a8ecff", "#f46e6eff"];
-const lichen_colours = ["#c5ddf1ff", "#f4cbcbff"];
 
-let all_rubble_colours = ["#f4f4f4ff"];
-
-for (let n = 1; n <= 100; n++) {
-	let val = 230 - Math.floor((n / 100) * 150);
-	let hex = val.toString(16);
-	if (hex.length === 1) {
-		hex = "0" + hex;
-	}
-	all_rubble_colours.push(`#${hex}${hex}${hex}ff`);
-}
+const all_rubble_colours = make_colour_scale([0x96, 0x96, 0x96], [0xe6, 0xe6, 0xe6]);
+const red_lichen_colours = make_colour_scale([0xf2, 0x99, 0x99], [0xf3, 0xe1, 0xe1]);
+const blue_lichen_colours = make_colour_scale([0x8b, 0xc0, 0xed], [0xde, 0xe9, 0xf2]);
 
 
 function calculate_square_size(canvas, map_width, map_height) {
@@ -48,10 +40,14 @@ function draw(replay, index, canvas, infodiv, selection) {
 		for (let y = 0; y < replay.height; y++) {
 
 			let cell_type = replay.cell_type(x, y);
+			let lichen = replay.cell_lichen(index, x, y);
 
-			if (replay.cell_lichen(index, x, y) > 0) {
-				let colour = lichen_colours[replay.lichen_owner(index, x, y)];
-				fill_cell(colour, ctx, cell_size, x, y);
+			if (lichen > 0) {
+				if (replay.lichen_owner(index, x, y) === 0) {
+					fill_cell(blue_lichen_colours[lichen], ctx, cell_size, x, y);
+				} else {
+					fill_cell(red_lichen_colours[lichen], ctx, cell_size, x, y);
+				}
 			} else if (cell_type === NORMAL) {
 				let rubble = replay.cell_rubble(index, x, y);
 				let colour = rubble > 100 ? all_rubble_colours[100] : all_rubble_colours[rubble];
@@ -184,5 +180,31 @@ function factory_info_lines(replay, index, factory) {
 
 	return lines;
 }
+
+function make_colour_scale(dark_rgb, light_rgb) {
+
+	// Returns 101 html colour values
+	// Arguments should be in the form of [3]int
+
+	let ret = ["#f4f4f4ff"];				// At index zero.
+
+	for (let n = 1; n <= 100; n++) {
+
+		let s = "";
+
+		for (let i = 0; i < 3; i++) {
+			let scale = light_rgb[i] - dark_rgb[i];
+			let hex = (light_rgb[i] - Math.floor((n / 100) * scale)).toString(16);
+			if (hex.length === 1) hex = "0" + hex;
+			s += hex;
+		}
+
+		ret.push(`#${s}ff`);
+	}
+
+	return ret;
+}
+
+
 
 module.exports = {draw, calculate_square_size};
