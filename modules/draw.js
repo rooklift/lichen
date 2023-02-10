@@ -81,20 +81,20 @@ function draw(replay, index, canvas, infodiv, selection) {
 			thing = replay.get_unit_by_id(index, selection);
 		} else if (selection.startsWith("factory_")) {
 			thing = replay.get_factory_by_id(index, selection);
+		} else {
+			thing = {pos: selection.split(",").map(s => parseInt(s, 10))};
 		}
-		if (thing) {
-			let [x, y] = thing.pos;
-			ctx.strokeStyle = "#000000ff";
-			let gx = x * cell_size + (cell_size / 2) + 0.5;
-			let gy = y * cell_size + (cell_size / 2) + 0.5;
-			ctx.beginPath();
-			ctx.moveTo(0, gy);
-			ctx.lineTo(cell_size * replay.width, gy);
-			ctx.stroke();
-			ctx.moveTo(gx, 0);
-			ctx.lineTo(gx, cell_size * replay.width);
-			ctx.stroke();
-		}
+		let [x, y] = thing.pos;
+		ctx.strokeStyle = "#000000ff";
+		let gx = x * cell_size + (cell_size / 2) + 0.5;
+		let gy = y * cell_size + (cell_size / 2) + 0.5;
+		ctx.beginPath();
+		ctx.moveTo(0, gy);
+		ctx.lineTo(cell_size * replay.width, gy);
+		ctx.stroke();
+		ctx.moveTo(gx, 0);
+		ctx.lineTo(gx, cell_size * replay.width);
+		ctx.stroke();
 	}
 
 	draw_info(replay, index, infodiv, selection);
@@ -140,6 +140,8 @@ function draw_info(replay, index, infodiv, selection) {
 			} else {
 				lines.push(`${selection} - not present`);
 			}
+		} else {
+			lines = lines.concat(cell_info_lines(replay, index, selection));
 		}
 	}
 	infodiv.innerHTML = lines.join("<br>\n");
@@ -183,6 +185,25 @@ function factory_info_lines(replay, index, factory) {
 	lines.push(
 		`🧊${factory.cargo.ice} &nbsp; 🌑${factory.cargo.ore} &nbsp; 💧${factory.cargo.water} &nbsp; ⚙️${factory.cargo.metal}`
 	);
+
+	return lines;
+}
+
+function cell_info_lines(replay, index, cell_string) {
+
+	let lines = [];
+
+	let [x, y] = cell_string.split(",").map(s => parseInt(s, 10));
+
+	let rubble = replay.cell_rubble(index, x, y);
+
+	if (replay.cell_type(x, y) === ICE) {
+		lines.push(`Ice &nbsp; [${x},${y}] &nbsp; ${rubble} rubble`);
+	} else if (replay.cell_type(x, y) === ORE) {
+		lines.push(`Ore &nbsp; [${x},${y}] &nbsp; ${rubble} rubble`);
+	} else {
+		lines.push(`Tile &nbsp; [${x},${y}] &nbsp; ${rubble} rubble`);
+	}
 
 	return lines;
 }

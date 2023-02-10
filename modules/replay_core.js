@@ -208,7 +208,7 @@ const replay_prototype = {
 				return factory.unit_id;
 			}
 		}
-		return "";
+		return `${x},${y}`;
 	},
 
 	lichen_scores: function(i) {
