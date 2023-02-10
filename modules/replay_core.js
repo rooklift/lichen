@@ -228,8 +228,8 @@ const replay_prototype = {
 		if (!unit) {
 			return 0;
 		}
-		let request = this.unit_request(i, s);
 		let queue;
+		let request = this.unit_request(i, s);
 		if (request && this.unit_can_receive_request(i, s)) {
 			queue = request;
 		} else {
