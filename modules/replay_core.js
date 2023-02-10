@@ -189,6 +189,14 @@ const replay_prototype = {
 		return false;
 	},
 
+	is_night: function(i) {
+		let real_step = this.real_step(i);
+		if (real_step < 0) {
+			return false;
+		}
+		return real_step % this.cfg().CYCLE_LENGTH >= this.cfg().DAY_LENGTH;
+	},
+
 };
 
 

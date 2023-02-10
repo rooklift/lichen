@@ -93,7 +93,7 @@ function fill_circle(colour, ctx, cell_size, x, y) {
 
 function draw_info(replay, index, infodiv, selection) {
 	let lines = [];
-	lines.push(`<br>Turn ${replay.real_step(index)}`);
+	lines.push(`<br>Turn ${replay.real_step(index)} &nbsp; ${replay.is_night(index) ? '<span class="ore">(Night)</span>' : ""}`);
 	lines.push(`<br>`);
 	if (selection && selection.startsWith("unit_")) {
 		let unit = replay.get_unit_by_id(index, selection);
