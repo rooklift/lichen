@@ -124,7 +124,7 @@ const replay_prototype = {
 	lichen_owner: function(i, x, y) {
 		let strain = this.lichen_strains[i][x][y];
 		if (strain === -1) {
-			return null;
+			return "";
 		}
 		for (let [player_name, team] of Object.entries(this.observations[i].teams)) {
 			for (let z of team.factory_strains) {
@@ -133,7 +133,7 @@ const replay_prototype = {
 				}
 			}
 		}
-		return null;
+		return "";
 	},
 
 	get_units: function(i) {
@@ -177,11 +177,11 @@ const replay_prototype = {
 	unit_request: function(i, s) {
 		let unit = this.get_unit_by_id(i, s);
 		if (!unit) {
-			return null;
+			return [];
 		}
 		let request = this.actions[i][`player_${unit.team_id}`][unit.unit_id];
 		if (!request) {
-			return null;
+			return [];
 		}
 		return request;
 	},
@@ -197,7 +197,7 @@ const replay_prototype = {
 		return true;
 	},
 
-	what_is_at: function(i, x, y) {					// For now, returns string or null.
+	what_is_at: function(i, x, y) {					// For now, returns string.
 		for (let unit of this.get_units(i)) {
 			if (unit.pos[0] === x && unit.pos[1] === y) {
 				return unit.unit_id;
@@ -208,7 +208,7 @@ const replay_prototype = {
 				return factory.unit_id;
 			}
 		}
-		return null;
+		return "";
 	},
 
 	lichen_scores: function(i) {
