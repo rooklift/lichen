@@ -261,7 +261,19 @@ function menu_build() {
 					}
 				},
 			]
-		}
+		},
+		{
+			label: "Misc",
+			submenu: [
+				{
+					label: "Clear selection",
+					accelerator: "Escape",
+					click: () => {
+						win.webContents.send("call", "clear_selection");
+					}
+				}
+			],
+		},
 	];
 
 	return electron.Menu.buildFromTemplate(template);

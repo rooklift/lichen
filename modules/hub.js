@@ -119,6 +119,11 @@ let hub_main_props = {
 		draw(this.replay, this.index, this.canvas, this.infodiv, this.selection);
 	},
 
+	clear_selection: function() {
+		this.selection = null;
+		this.draw();
+	},
+
 };
 
 
