@@ -3,10 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 const {ipcRenderer} = require("electron");
-
 const {draw, calculate_square_size} = require("./draw");
-const {fixed_kaggle_replay} = require("./replay_kaggle");
-const {fixed_local_replay} = require("./replay_local");
+const {fixed_local_replay, fixed_kaggle_replay} = require("./replay_import");
 const config_io = require("./config_io");
 
 function init() {

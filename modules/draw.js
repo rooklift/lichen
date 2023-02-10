@@ -93,18 +93,19 @@ function fill_circle(colour, ctx, cell_size, x, y) {
 
 function draw_info(replay, index, infodiv, selection) {
 	let lines = [];
-	lines.push(`<br>Turn ${replay.real_step(index)} &nbsp; ${replay.is_night(index) ? '<span class="ore">(Night)</span>' : ""}`);
-	lines.push(`<br>`);
+	lines.push(``);
+	lines.push(`Turn ${replay.real_step(index)} &nbsp; ${replay.is_night(index) ? '<span class="ore">(Night)</span>' : ""}`);
+	lines.push(``);
 	if (selection && selection.startsWith("unit_")) {
 		let unit = replay.get_unit_by_id(index, selection);
 		if (unit) {
-			lines.push(`<br><span class="player_${unit.team_id}">${selection}</span> &nbsp; [${unit.pos[0]},${unit.pos[1]}]`);
-			lines.push(`<br>` +
+			lines.push(`<span class="player_${unit.team_id}">${selection}</span> &nbsp; [${unit.pos[0]},${unit.pos[1]}]`);
+			lines.push(
 				`<span class="power">pwr: ${unit.power}</span> &nbsp;` +
 				`<span class="ice">ice: ${unit.cargo.ice}</span> &nbsp;` +
 				`<span class="ore">ore: ${unit.cargo.ore}</span>`
 			);
-			lines.push(`<br>`);
+			lines.push(``);
 			let queue;
 			let request = replay.unit_request(index, unit.unit_id);
 			if (request) {
@@ -112,19 +113,19 @@ function draw_info(replay, index, infodiv, selection) {
 				lines.push(`<br><span class="player_${unit.team_id}">New request issued:</span>`);
 			} else {
 				queue = unit.action_queue;
-				lines.push(`<br>`);
+				lines.push(``);
 			}
 			for (let action of queue) {
-				lines.push(`<br>${printable_action(action)}`);
+				lines.push(`${printable_action(action)}`);
 			}
 			if (request && !replay.unit_can_receive_request(index, unit.unit_id)) {
-				lines.push(`<br><span class="warning">Unit cannot receive this request!</span>`);
+				lines.push(`<span class="warning">Unit cannot receive this request!</span>`);
 			}
 		} else {
-			lines.push(`<br>${selection} - not present`);
+			lines.push(`${selection} - not present`);
 		}
 	}
-	infodiv.innerHTML = lines.join("\n");
+	infodiv.innerHTML = lines.join("<br>\n");
 }
 
 function calculate_square_size(canvas, map_width, map_height) {
