@@ -2,16 +2,15 @@
 
 const {NORMAL, ICE, ORE, BUILD_LIGHT, BUILD_HEAVY, WATER_LICHEN, printable_action} = require("./types");
 
+const all_rubble_colours = make_colour_scale([0x96, 0x96, 0x96], [0xe6, 0xe6, 0xe6]);
+const blue_lichen_colours = make_colour_scale([0x8b, 0xc0, 0xed], [0xde, 0xe9, 0xf2]);
+const red_lichen_colours = make_colour_scale([0xf2, 0x99, 0x99], [0xf3, 0xe1, 0xe1]);
+
+const factory_colours = [blue_lichen_colours[100], red_lichen_colours[100]];
+const unit_colours = ["#228be6ff", "#f03e3eff"];
+
 const ore_colour = "#884422ff";
 const water_colour = "#48dbfbff";
-
-const unit_colours = ["#228be6ff", "#f03e3eff"];
-const factory_colours = ["#59a8ecff", "#f46e6eff"];
-
-const all_rubble_colours = make_colour_scale([0x96, 0x96, 0x96], [0xe6, 0xe6, 0xe6]);
-const red_lichen_colours = make_colour_scale([0xf2, 0x99, 0x99], [0xf3, 0xe1, 0xe1]);
-const blue_lichen_colours = make_colour_scale([0x8b, 0xc0, 0xed], [0xde, 0xe9, 0xf2]);
-
 
 function calculate_square_size(canvas, map_width, map_height) {
 	let foo = canvas.width / map_width;
@@ -71,7 +70,11 @@ function draw(replay, index, canvas, infodiv, selection) {
 		if (unit.unit_type === "HEAVY") {
 			fill_cell(unit_colours[unit.team_id], ctx, cell_size, x, y);
 		} else {
-			fill_circle(unit_colours[unit.team_id], ctx, cell_size, x, y);
+			if (config.triangles) {
+				fill_triangle(unit_colours[unit.team_id], ctx, cell_size, x, y, replay.unit_direction(index, unit.unit_id));
+			} else {
+				fill_circle(unit_colours[unit.team_id], ctx, cell_size, x, y);
+			}
 		}
 	}
 
@@ -114,6 +117,40 @@ function fill_circle(colour, ctx, cell_size, x, y) {
 	ctx.beginPath();
 	ctx.arc(gx, gy, Math.max(cell_size / 2 - 2, 1), 0, 2 * Math.PI);
 	ctx.fill();
+}
+
+function fill_triangle(colour, ctx, cell_size, x, y, direction) {
+	ctx.fillStyle = colour;
+	let a = 0.1;
+	let b = 0.5;
+	let c = 1 - a;
+	if (direction === 1) {
+		ctx.beginPath();
+		ctx.moveTo((x + a) * cell_size, (y + c) * cell_size);
+		ctx.lineTo((x + c) * cell_size, (y + c) * cell_size);
+		ctx.lineTo((x + b) * cell_size, (y + a) * cell_size);
+		ctx.fill();
+	} else if (direction === 2) {
+		ctx.beginPath();
+		ctx.moveTo((x + a) * cell_size, (y + a) * cell_size);
+		ctx.lineTo((x + a) * cell_size, (y + c) * cell_size);
+		ctx.lineTo((x + c) * cell_size, (y + b) * cell_size);
+		ctx.fill();
+	} else if (direction === 3) {
+		ctx.beginPath();
+		ctx.moveTo((x + a) * cell_size, (y + a) * cell_size);
+		ctx.lineTo((x + c) * cell_size, (y + a) * cell_size);
+		ctx.lineTo((x + b) * cell_size, (y + c) * cell_size);
+		ctx.fill();
+	} else if (direction === 4) {
+		ctx.beginPath();
+		ctx.moveTo((x + c) * cell_size, (y + a) * cell_size);
+		ctx.lineTo((x + c) * cell_size, (y + c) * cell_size);
+		ctx.lineTo((x + a) * cell_size, (y + b) * cell_size);
+		ctx.fill();
+	} else {
+		fill_circle(colour, ctx, cell_size, x, y)
+	}
 }
 
 function draw_info(replay, index, infodiv, selection) {

@@ -294,7 +294,18 @@ function menu_build() {
 					click: () => {
 						win.webContents.send("call", "clear_selection");
 					}
-				}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Light triangles",
+					type: "checkbox",
+					checked: config.triangles,
+					click: () => {
+						win.webContents.send("toggle", "triangles");
+					}
+				},
 			],
 		},
 	];

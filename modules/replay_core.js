@@ -223,6 +223,27 @@ const replay_prototype = {
 		return new_selection("tile", "tile", 0, i, x, y);
 	},
 
+	unit_direction: function(i, s) {
+		let unit = this.get_unit_by_id(i, s);
+		if (!unit) {
+			return 0;
+		}
+		let request = this.unit_request(i, s);
+		let queue;
+		if (request && this.unit_can_receive_request(i, s)) {
+			queue = request;
+		} else {
+			queue = unit.action_queue;
+		}
+		if (queue.length === 0) {
+			return 0;
+		}
+		if (queue[0][0] !== 0) {
+			return 0;
+		}
+		return queue[0][1];
+	},
+
 	lichen_scores: function(i) {
 		let ret = {
 			player_0: 0,

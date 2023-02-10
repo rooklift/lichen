@@ -3,7 +3,9 @@
 const {ipcRenderer} = require("electron");
 
 const multichecks = {};
-const togglechecks = {};
+const togglechecks = {
+	triangles:		["Misc", "Light triangles"],
+};
 
 for (let menupath of Object.values(multichecks)) {
 	ipcRenderer.send("verify_menupath", menupath);
@@ -20,6 +22,8 @@ module.exports = {
 		config[key] = value;
 
 		switch (key) {				// Any needed followup actions.
+
+			case "triangles":
 			case "maxed":
 				hub.draw();
 				break;

@@ -24,7 +24,7 @@ exports.defaults = {
 	width:				1024,
 	height:				768,
 	maxed:				false,
-
+	triangles:			false,
 	info_font_size:		24,
 };
 
