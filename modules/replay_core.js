@@ -183,10 +183,10 @@ const replay_prototype = {
 		if (!unit) {
 			return false;
 		}
-		if (unit.power >= this.cfg().ROBOTS[unit.unit_type].ACTION_QUEUE_POWER_COST) {
-			return true;
+		if (unit.power < this.cfg().ROBOTS[unit.unit_type].ACTION_QUEUE_POWER_COST) {
+			return false;
 		}
-		return false;
+		return true;
 	},
 
 	is_night: function(i) {
