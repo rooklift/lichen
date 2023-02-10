@@ -91,6 +91,14 @@ const replay_prototype = {
 		return this.observations[i].real_env_steps;
 	},
 
+	is_night: function(i) {
+		let real_step = this.real_step(i);
+		if (real_step < 0) {
+			return false;
+		}
+		return real_step % this.cfg().CYCLE_LENGTH >= this.cfg().DAY_LENGTH;
+	},
+
 	cell_type: function(x, y) {
 		return this.map[x][y];
 	},
@@ -109,8 +117,8 @@ const replay_prototype = {
 
 	get_units: function(i) {
 		let ret = [];
-		for (let player of Object.values(this.observations[i].units)) {
-			for (let unit of Object.values(player)) {
+		for (let units_object of Object.values(this.observations[i].units)) {
+			for (let unit of Object.values(units_object)) {
 				ret.push(unit);
 			}
 		}
@@ -119,9 +127,9 @@ const replay_prototype = {
 
 	get_factories: function(i) {
 		let ret = [];
-		for (let player of Object.values(this.observations[i].factories)) {
-			for (let fact of Object.values(player)) {
-				ret.push(fact);
+		for (let factories_object of Object.values(this.observations[i].factories)) {
+			for (let factory of Object.values(factories_object)) {
+				ret.push(factory);
 			}
 		}
 		return ret;
@@ -199,14 +207,6 @@ const replay_prototype = {
 			}
 		}
 		return null;
-	},
-
-	is_night: function(i) {
-		let real_step = this.real_step(i);
-		if (real_step < 0) {
-			return false;
-		}
-		return real_step % this.cfg().CYCLE_LENGTH >= this.cfg().DAY_LENGTH;
 	},
 
 	lichen_scores: function(i) {
