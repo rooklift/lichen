@@ -2,9 +2,24 @@
 
 const {NORMAL, ICE, ORE, printable_action} = require("./types");
 
+const ore_colour = "#884422ff";
+const water_colour = "#48dbfbff";
+
 const team_colours = ["#228be6ff", "#f03e3eff"];
 const factory_colours = ["#59a8ecff", "#f46e6eff"];
 const lichen_colours = ["#c5ddf1ff", "#f4cbcbff"];
+
+let all_rubble_colours = ["#f4f4f4ff"];
+
+for (let n = 1; n <= 100; n++) {
+	let val = 230 - Math.floor((n / 100) * 150);
+	let hex = val.toString(16);
+	if (hex.length === 1) {
+		hex = "0" + hex;
+	}
+	all_rubble_colours.push(`#${hex}${hex}${hex}ff`);
+}
+
 
 function calculate_square_size(canvas, map_width, map_height) {
 	let foo = canvas.width / map_width;
@@ -38,12 +53,13 @@ function draw(replay, index, canvas, infodiv, selection) {
 				let colour = lichen_colours[replay.lichen_owner(index, x, y)];
 				fill_cell(colour, ctx, cell_size, x, y);
 			} else if (cell_type === NORMAL) {
-				let colour = replay.cell_rubble(index, x, y) > 0 ? "#cdcdcdff" : "#f4f4f4ff";
+				let rubble = replay.cell_rubble(index, x, y);
+				let colour = rubble > 100 ? all_rubble_colours[100] : all_rubble_colours[rubble];
 				fill_cell(colour, ctx, cell_size, x, y);
 			} else if (cell_type === ICE) {
-				fill_cell("#48dbfbff", ctx, cell_size, x, y);
+				fill_cell(water_colour, ctx, cell_size, x, y);
 			} else if (cell_type === ORE) {
-				fill_cell("#2c3e50ff", ctx, cell_size, x, y);
+				fill_cell(ore_colour, ctx, cell_size, x, y);
 			}
 		}
 	}
