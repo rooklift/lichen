@@ -87,6 +87,12 @@ const replay_prototype = {
 		}
 	},
 
+	// --------------------------------------------------------------------------------------------
+
+	cfg: function() {
+		return require("./env_cfg");				// TODO - if present in the replay, use it instead.
+	},
+
 	real_step: function(i) {
 		return this.observations[i].real_env_steps;
 	},
@@ -115,6 +121,21 @@ const replay_prototype = {
 		return this.lichen_strains[i][x][y];
 	},
 
+	lichen_owner: function(i, x, y) {
+		let strain = this.lichen_strains[i][x][y];
+		if (strain === -1) {
+			return null;
+		}
+		for (let [player_name, team] of Object.entries(this.observations[i].teams)) {
+			for (let z of team.factory_strains) {
+				if (z === strain) {
+					return player_name;
+				}
+			}
+		}
+		return null;
+	},
+
 	get_units: function(i) {
 		let ret = [];
 		for (let units_object of Object.values(this.observations[i].units)) {
@@ -135,43 +156,19 @@ const replay_prototype = {
 		return ret;
 	},
 
-	lichen_owner: function(i, x, y) {
-		let strain = this.cell_lichen_strain(i, x, y);
-		if (strain === -1) {
-			return null;
-		}
-		for (let [player_name, team] of Object.entries(this.observations[i].teams)) {
-			for (let z of team.factory_strains) {
-				if (z === strain) {
-					return player_name;
-				}
-			}
-		}
-		return null;
-	},
-
-	cfg: function() {
-		return require("./env_cfg");				// TODO - if present in the replay, use it instead.
-	},
-
-	what_is_at: function(i, x, y) {					// For now, returns string or null.
-		for (let unit of this.get_units(i)) {
-			if (unit.pos[0] === x && unit.pos[1] === y) {
-				return unit.unit_id;
-			}
-		}
-		for (let factory of this.get_factories(i)) {
-			if (factory.pos[0] >= x - 1 && factory.pos[0] <= x + 1 && factory.pos[1] >= y - 1 && factory.pos[1] <= y + 1) {
-				return factory.unit_id;
-			}
-		}
-		return null;
-	},
-
 	get_unit_by_id: function(i, s) {
 		for (let units_object of Object.values(this.observations[i].units)) {
 			if (units_object[s]) {
 				return units_object[s];
+			}
+		}
+		return null;
+	},
+
+	get_factory_by_id: function(i, s) {
+		for (let factories_object of Object.values(this.observations[i].factories)) {
+			if (factories_object[s]) {
+				return factories_object[s];
 			}
 		}
 		return null;
@@ -200,10 +197,15 @@ const replay_prototype = {
 		return true;
 	},
 
-	get_factory_by_id: function(i, s) {
-		for (let factories_object of Object.values(this.observations[i].factories)) {
-			if (factories_object[s]) {
-				return factories_object[s];
+	what_is_at: function(i, x, y) {					// For now, returns string or null.
+		for (let unit of this.get_units(i)) {
+			if (unit.pos[0] === x && unit.pos[1] === y) {
+				return unit.unit_id;
+			}
+		}
+		for (let factory of this.get_factories(i)) {
+			if (factory.pos[0] >= x - 1 && factory.pos[0] <= x + 1 && factory.pos[1] >= y - 1 && factory.pos[1] <= y + 1) {
+				return factory.unit_id;
 			}
 		}
 		return null;
