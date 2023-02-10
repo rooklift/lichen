@@ -9,7 +9,7 @@ const red_lichen_colours = make_colour_scale([0xf2, 0x99, 0x99], [0xf3, 0xe1, 0x
 const factory_colours = [blue_lichen_colours[100], red_lichen_colours[100]];
 const unit_colours = ["#228be6ff", "#f03e3eff"];
 
-const ore_colour = "#884422ff";
+const ore_colour = "#181818ff";
 const water_colour = "#48dbfbff";
 
 function calculate_square_size(canvas, map_width, map_height) {
