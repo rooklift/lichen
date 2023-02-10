@@ -26,18 +26,14 @@ body {
 	color: #ff8888ff;
 }
 
+.gray {
+	color: #ccccccff;
+}
+
 .warning {
 	color: #ffff88ff;
 }
 
 .power {
-	color: #ffffccff;
-}
-
-.ice {
-	color: #ccffffff;
-}
-
-.ore {
-	color: #ccccccff;
+	color: #ffffaaff;
 }

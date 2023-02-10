@@ -6,6 +6,12 @@ const team_colours = ["#228be6ff", "#f03e3eff"];
 const factory_colours = ["#59a8ecff", "#f46e6eff"];
 const lichen_colours = ["#c5ddf1ff", "#f4cbcbff"];
 
+function calculate_square_size(canvas, map_width, map_height) {
+	let foo = canvas.width / map_width;
+	let bar = canvas.height / map_height;
+	return Math.floor(Math.min(foo, bar));
+}
+
 function draw(replay, index, canvas, infodiv, selection) {
 
 	canvas.height = window.innerHeight;
@@ -57,10 +63,15 @@ function draw(replay, index, canvas, infodiv, selection) {
 		}
 	}
 
-	if (selection && selection.startsWith("unit_")) {
-		let unit = replay.get_unit_by_id(index, selection);
-		if (unit) {
-			let [x, y] = unit.pos;
+	if (selection) {
+		let thing;
+		if (selection.startsWith("unit_")) {
+			thing = replay.get_unit_by_id(index, selection);
+		} else if (selection.startsWith("factory_")) {
+			thing = replay.get_factory_by_id(index, selection);
+		}
+		if (thing) {
+			let [x, y] = thing.pos;
 			ctx.strokeStyle = "#000000ff";
 			let gx = x * cell_size + (cell_size / 2) + 0.5;
 			let gy = y * cell_size + (cell_size / 2) + 0.5;
@@ -94,44 +105,68 @@ function fill_circle(colour, ctx, cell_size, x, y) {
 function draw_info(replay, index, infodiv, selection) {
 	let lines = [];
 	lines.push(``);
-	lines.push(`Turn ${replay.real_step(index)} &nbsp; ${replay.is_night(index) ? '<span class="ore">(Night)</span>' : ""}`);
+	lines.push(`Turn ${replay.real_step(index)} &nbsp; ${replay.is_night(index) ? '<span class="gray">(Night)</span>' : ""}`);
 	lines.push(``);
-	if (selection && selection.startsWith("unit_")) {
-		let unit = replay.get_unit_by_id(index, selection);
-		if (unit) {
-			lines.push(`<span class="player_${unit.team_id}">${selection}</span> &nbsp; [${unit.pos[0]},${unit.pos[1]}]`);
-			lines.push(
-				`<span class="power">pwr: ${unit.power}</span> &nbsp;` +
-				`<span class="ice">ice: ${unit.cargo.ice}</span> &nbsp;` +
-				`<span class="ore">ore: ${unit.cargo.ore}</span>`
-			);
-			lines.push(``);
-			let queue;
-			let request = replay.unit_request(index, unit.unit_id);
-			if (request) {
-				queue = request;
-				lines.push(`<br><span class="player_${unit.team_id}">New request issued:</span>`);
+	if (selection) {
+		if (selection.startsWith("unit_")) {
+			let unit = replay.get_unit_by_id(index, selection);
+			if (unit) {
+				lines = lines.concat(unit_info_lines(replay, index, unit));
 			} else {
-				queue = unit.action_queue;
-				lines.push(``);
+				lines.push(`${selection} - not present`);
 			}
-			for (let action of queue) {
-				lines.push(`${printable_action(action)}`);
+		} else if (selection.startsWith("factory_")) {
+			let factory = replay.get_factory_by_id(index, selection);
+			if (factory) {
+				lines = lines.concat(factory_info_lines(replay, index, factory));
+			} else {
+				lines.push(`${selection} - not present`);
 			}
-			if (request && !replay.unit_can_receive_request(index, unit.unit_id)) {
-				lines.push(`<span class="warning">Unit cannot receive this request!</span>`);
-			}
-		} else {
-			lines.push(`${selection} - not present`);
 		}
 	}
 	infodiv.innerHTML = lines.join("<br>\n");
 }
 
-function calculate_square_size(canvas, map_width, map_height) {
-	let foo = canvas.width / map_width;
-	let bar = canvas.height / map_height;
-	return Math.floor(Math.min(foo, bar));
+function unit_info_lines(replay, index, unit) {
+
+	let lines = [];
+
+	lines.push(`<span class="player_${unit.team_id}">${unit.unit_id}</span> &nbsp; ` +
+				`<span class="power">⚡${unit.power}</span> &nbsp; [${unit.pos[0]},${unit.pos[1]}]`);
+	lines.push(
+		`🧊${unit.cargo.ice} &nbsp; 🥔${unit.cargo.ore} &nbsp; 💧${unit.cargo.water} &nbsp; ⚙️${unit.cargo.metal}`
+	);
+	lines.push(``);
+	let queue;
+	let request = replay.unit_request(index, unit.unit_id);
+	if (request) {
+		queue = request;
+		lines.push(`<br><span class="player_${unit.team_id}">New request issued:</span>`);
+	} else {
+		queue = unit.action_queue;
+		lines.push(``);
+	}
+	for (let action of queue) {
+		lines.push(`${printable_action(action)}`);
+	}
+	if (request && !replay.unit_can_receive_request(index, unit.unit_id)) {
+		lines.push(`<span class="warning">Unit cannot receive this request!</span>`);
+	}
+
+	return lines;
+}
+
+function factory_info_lines(replay, index, factory) {
+
+	let lines = [];
+
+	lines.push(`<span class="player_${factory.team_id}">${factory.unit_id}</span> &nbsp; ` +
+				`<span class="power">⚡${factory.power}</span> &nbsp; [${factory.pos[0]},${factory.pos[1]}]`);
+	lines.push(
+		`🧊${factory.cargo.ice} &nbsp; 🥔${factory.cargo.ore} &nbsp; 💧${factory.cargo.water} &nbsp; ⚙️${factory.cargo.metal}`
+	);
+
+	return lines;
 }
 
 module.exports = {draw, calculate_square_size};

@@ -155,6 +155,11 @@ const replay_prototype = {
 				return unit.unit_id;
 			}
 		}
+		for (let factory of this.get_factories(i)) {
+			if (factory.pos[0] >= x - 1 && factory.pos[0] <= x + 1 && factory.pos[1] >= y - 1 && factory.pos[1] <= y + 1) {
+				return factory.unit_id;
+			}
+		}
 		return null;
 	},
 
@@ -187,6 +192,14 @@ const replay_prototype = {
 			return false;
 		}
 		return true;
+	},
+
+	get_factory_by_id: function(i, s) {
+		let p0_factory = this.observations[i].factories.player_0[s];
+		if (p0_factory) return p0_factory;
+		let p1_factory = this.observations[i].factories.player_1[s];
+		if (p1_factory) return p1_factory;
+		return null;
 	},
 
 	is_night: function(i) {
