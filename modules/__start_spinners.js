@@ -19,3 +19,12 @@
 	setTimeout(window_resize_spinner, 127);
 	
 })();
+
+(function autoplay_spinner() {
+
+	if (config.autoplay) {
+		hub.forward_auto();
+	}
+
+	setTimeout(autoplay_spinner, 50);
+})();

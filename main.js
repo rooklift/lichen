@@ -192,7 +192,7 @@ function menu_build() {
 			]
 		},
 		{
-			label: "View",
+			label: "Step",
 			submenu: [
 				{
 					label: "Backward",
@@ -258,6 +258,18 @@ function menu_build() {
 							fn: "forward",
 							args: [999999]
 						});
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Autoplay",
+					accelerator: "Space",
+					type: "checkbox",
+					checked: false,						// Not saved to config
+					click: () => {
+						win.webContents.send("toggle", "autoplay");
 					}
 				},
 			]

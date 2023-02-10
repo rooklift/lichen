@@ -80,6 +80,7 @@ let hub_main_props = {
 				i = 0;
 			} else if (i >= this.replay.steps) {
 				i = this.replay.steps - 1;
+				this.set("autoplay", false);
 			}
 		}
 		this.index = i;
@@ -108,11 +109,17 @@ let hub_main_props = {
 	},
 
 	backward: function(n) {
+		this.set("autoplay", false);
 		this.set_index(this.index - n);
 	},
 
 	forward: function(n) {
+		this.set("autoplay", false);
 		this.set_index(this.index + n);
+	},
+
+	forward_auto: function() {
+		this.set_index(this.index + 1);
 	},
 
 	draw: function() {

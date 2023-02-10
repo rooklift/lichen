@@ -4,6 +4,7 @@ const {ipcRenderer} = require("electron");
 
 const multichecks = {};
 const togglechecks = {
+	autoplay: 		["Step", "Autoplay"],
 	triangles:		["Misc", "Light triangles"],
 };
 
