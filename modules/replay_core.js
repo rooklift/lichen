@@ -205,7 +205,7 @@ const replay_prototype = {
 		}
 		for (let factory of this.get_factories(i)) {
 			if (factory.pos[0] >= x - 1 && factory.pos[0] <= x + 1 && factory.pos[1] >= y - 1 && factory.pos[1] <= y + 1) {
-				return new_selection("factory", factory.unit_id, unit.team_id, i, x, y);
+				return new_selection("factory", factory.unit_id, factory.team_id, i, x, y);
 			}
 		}
 		return new_selection("tile", "tile", 0, i, x, y);
