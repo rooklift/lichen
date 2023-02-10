@@ -1,6 +1,6 @@
 "use strict";
 
-const {NORMAL, ICE, ORE, printable_action} = require("./types");
+const {NORMAL, ICE, ORE, BUILD_LIGHT, BUILD_HEAVY, WATER_LICHEN, printable_action} = require("./types");
 
 const ore_colour = "#884422ff";
 const water_colour = "#48dbfbff";
@@ -183,6 +183,17 @@ function factory_info_lines(replay, index, factory) {
 	let lines = [];
 	lines.push(`<span class="player_${factory.team_id}">${factory.unit_id}</span> &nbsp; <span class="power">⚡${factory.power}</span>`);
 	lines.push(`🧊${factory.cargo.ice} &nbsp; 🌑${factory.cargo.ore} &nbsp; 💧${factory.cargo.water} &nbsp; ⚙️${factory.cargo.metal}`);
+	let request = replay.factory_request(index, factory.unit_id);
+	if (typeof request === "number") {
+		lines.push(``);
+		if (request === BUILD_LIGHT) {
+			lines.push("Build light");
+		} else if (request === BUILD_HEAVY) {
+			lines.push("Build heavy");
+		} else if (request === WATER_LICHEN) {
+			lines.push("Water lichen");
+		}
+	}
 	return lines;
 }
 

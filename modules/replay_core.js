@@ -197,6 +197,18 @@ const replay_prototype = {
 		return true;
 	},
 
+	factory_request: function(i, s) {
+		let factory = this.get_factory_by_id(i, s);
+		if (!factory) {
+			return null;
+		}
+		let request = this.actions[i][`player_${factory.team_id}`][factory.unit_id];
+		if (request === undefined) {				// Note that it could be 0
+			return null;
+		}
+		return request;
+	},
+
 	what_is_at: function(i, x, y) {
 		for (let unit of this.get_units(i)) {
 			if (unit.pos[0] === x && unit.pos[1] === y) {
