@@ -5,7 +5,7 @@ const {NORMAL, ICE, ORE, printable_action} = require("./types");
 const ore_colour = "#884422ff";
 const water_colour = "#48dbfbff";
 
-const team_colours = ["#228be6ff", "#f03e3eff"];
+const unit_colours = ["#228be6ff", "#f03e3eff"];
 const factory_colours = ["#59a8ecff", "#f46e6eff"];
 
 const all_rubble_colours = make_colour_scale([0x96, 0x96, 0x96], [0xe6, 0xe6, 0xe6]);
@@ -69,9 +69,9 @@ function draw(replay, index, canvas, infodiv, selection) {
 	for (let unit of replay.get_units(index)) {
 		let [x, y] = unit.pos;
 		if (unit.unit_type === "HEAVY") {
-			fill_cell(team_colours[unit.team_id], ctx, cell_size, x, y);
+			fill_cell(unit_colours[unit.team_id], ctx, cell_size, x, y);
 		} else {
-			fill_circle(team_colours[unit.team_id], ctx, cell_size, x, y);
+			fill_circle(unit_colours[unit.team_id], ctx, cell_size, x, y);
 		}
 	}
 
@@ -135,7 +135,8 @@ function draw_info(replay, index, infodiv, selection) {
 				lines.push(``);
 				lines = lines.concat(unit_info_lines(replay, index, unit));
 			} else {
-				lines.push(`${selection.name} - not present`);
+				let status = (selection.i > index) ? "not yet built" : "destroyed";
+				lines.push(`<span class="player_${selection.team_id}">${selection.name}</span> - ${status}`);
 			}
 		} else if (selection.type === "factory") {
 			let factory = replay.get_factory_by_id(index, selection.name);
@@ -193,13 +194,17 @@ function cell_info_lines(replay, index, xy_haver) {
 	let {x, y} = xy_haver;
 
 	let rubble = replay.cell_rubble(index, x, y);
+	let lichen = replay.cell_lichen(index, x, y);
+	let lichen_strain = replay.cell_lichen_strain(index, x, y);
 
 	if (replay.cell_type(x, y) === ICE) {
-		lines.push(`[${x},${y}] &nbsp; Ice, ${rubble} rubble`);
+		lines.push(`[${x},${y}] &nbsp; Ice${rubble > 0 ? ", " + rubble.toString() + " rubble" : ""}`);
 	} else if (replay.cell_type(x, y) === ORE) {
-		lines.push(`[${x},${y}] &nbsp; Ore, ${rubble} rubble`);
+		lines.push(`[${x},${y}] &nbsp; Ore${rubble > 0 ? ", " + rubble.toString() + " rubble" : ""}`);
+	} else if (lichen > 0) {
+		lines.push(`[${x},${y}] &nbsp; ${lichen} lichen (strain ${lichen_strain})`);
 	} else {
-		lines.push(`[${x},${y}] &nbsp; ${rubble} rubble`);
+		lines.push(`[${x},${y}] &nbsp; ${rubble > 0 ? rubble.toString() + " rubble" : ""}`);
 	}
 
 	return lines;

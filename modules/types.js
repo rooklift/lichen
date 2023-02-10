@@ -54,8 +54,8 @@ function printable_action(action) {
 }
 
 
-function new_selection(type, name, i, x, y) {
-	return {type, name, i, x, y};
+function new_selection(type, name, team_id, i, x, y) {
+	return {type, name, team_id, i, x, y};
 }
 
 
