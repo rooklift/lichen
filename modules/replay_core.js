@@ -134,12 +134,12 @@ const replay_prototype = {
 		}
 		for (let z of this.observations[i].teams.player_0.factory_strains) {
 			if (z === strain) {
-				return 0;
+				return "player_0";
 			}
 		}
 		for (let z of this.observations[i].teams.player_1.factory_strains) {
 			if (z === strain) {
-				return 1;
+				return "player_1";
 			}
 		}
 		return null;
@@ -210,6 +210,33 @@ const replay_prototype = {
 		return real_step % this.cfg().CYCLE_LENGTH >= this.cfg().DAY_LENGTH;
 	},
 
+	lichen_scores: function(i) {
+
+		let ret = {player_0: 0, player_1: 0};
+
+		for (let x = 0; x < this.width; x++) {
+
+			for (let y = 0; y < this.height; y++) {
+
+				let strain = this.lichen_strains[i][x][y];
+
+				if (strain === -1) {
+					continue;
+				}
+
+				for (let [player_name, team] of Object.entries(this.observations[i].teams)) {
+					for (let z of team.factory_strains) {
+						if (z === strain) {
+							ret[player_name] += this.lichen[i][x][y];
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		return ret;
+	},
 };
 
 

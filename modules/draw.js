@@ -43,7 +43,7 @@ function draw(replay, index, canvas, infodiv, selection) {
 			let lichen = replay.cell_lichen(index, x, y);
 
 			if (lichen > 0) {
-				if (replay.lichen_owner(index, x, y) === 0) {
+				if (replay.lichen_owner(index, x, y) === "player_0") {
 					fill_cell(blue_lichen_colours[lichen], ctx, cell_size, x, y);
 				} else {
 					fill_cell(red_lichen_colours[lichen], ctx, cell_size, x, y);
@@ -116,8 +116,14 @@ function fill_circle(colour, ctx, cell_size, x, y) {
 
 function draw_info(replay, index, infodiv, selection) {
 	let lines = [];
+	let scores = replay.lichen_scores(index);
 	lines.push(``);
 	lines.push(`Turn ${replay.real_step(index)} &nbsp; ${replay.is_night(index) ? '<span class="gray">(Night)</span>' : ""}`);
+	if (scores.player_0 > 0 || scores.player_1 > 0) {
+		lines.push(`<span class="player_0">${scores.player_0}</span> vs <span class="player_1">${scores.player_1}</span>`);
+	} else {
+		lines.push(``);
+	}
 	lines.push(``);
 	if (selection) {
 		if (selection.startsWith("unit_")) {
