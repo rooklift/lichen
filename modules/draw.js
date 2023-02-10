@@ -118,13 +118,12 @@ function fill_circle(colour, ctx, cell_size, x, y) {
 
 function draw_info(replay, index, infodiv, selection) {
 	let lines = [];
-	let scores = replay.lichen_scores(index);
 	lines.push(``);
-	lines.push(`Turn ${replay.real_step(index)} &nbsp; ${replay.is_night(index) ? '<span class="gray">(Night)</span>' : ""}`);
+	let turn_class = replay.is_night(index) ? "gray" : "white";
+	lines.push(`<span class="${turn_class}">Turn ${replay.real_step(index)}</span>`);
+	let scores = replay.lichen_scores(index);
 	if (scores.player_0 > 0 || scores.player_1 > 0) {
-		lines.push(`<span class="player_0">${scores.player_0}</span> vs <span class="player_1">${scores.player_1}</span>`);
-	} else {
-		lines.push(``);
+		lines[lines.length - 1] += ` &ndash; <span class="player_0">${scores.player_0}</span> vs <span class="player_1">${scores.player_1}</span>`;
 	}
 	lines.push(``);
 	if (selection) {

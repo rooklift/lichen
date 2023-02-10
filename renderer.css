@@ -30,6 +30,10 @@ body {
 	color: #ccccccff;
 }
 
+.white {
+	color: #ffffffff;
+}
+
 .warning {
 	color: #ffff88ff;
 }
