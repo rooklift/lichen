@@ -144,7 +144,8 @@ function draw_info(replay, index, infodiv, selection) {
 				lines.push(``);
 				lines = lines.concat(factory_info_lines(replay, index, factory));
 			} else {
-				lines.push(`${selection.name} - not present`);
+				let status = (selection.i > index) ? "not yet built" : "destroyed";
+				lines.push(`<span class="player_${selection.team_id}">${selection.name}</span> - ${status}`);
 			}
 		} else if (selection.type === "tile") {
 			lines = lines.concat(cell_info_lines(replay, index, selection));
