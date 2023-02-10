@@ -165,7 +165,7 @@ function unit_info_lines(replay, index, unit) {
 	let request = replay.unit_request(index, unit.unit_id);
 	if (request) {
 		queue = request;
-		lines.push(`<br><span class="player_${unit.team_id}">New request issued:</span>`);
+		lines.push(`<span class="player_${unit.team_id}">New request issued:</span>`);
 	} else {
 		queue = unit.action_queue;
 		lines.push(``);
