@@ -266,6 +266,29 @@ function menu_build() {
 			label: "Misc",
 			submenu: [
 				{
+					label: "Backward",
+					accelerator: "Up",
+					click: () => {
+						win.webContents.send("call", {
+							fn: "backward",
+							args: [1]
+						});
+					}
+				},
+				{
+					label: "Forward",
+					accelerator: "Down",
+					click: () => {
+						win.webContents.send("call", {
+							fn: "forward",
+							args: [1]
+						});
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Clear selection",
 					accelerator: "Escape",
 					click: () => {
