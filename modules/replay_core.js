@@ -132,14 +132,11 @@ const replay_prototype = {
 		if (strain === -1) {
 			return null;
 		}
-		for (let z of this.observations[i].teams.player_0.factory_strains) {
-			if (z === strain) {
-				return "player_0";
-			}
-		}
-		for (let z of this.observations[i].teams.player_1.factory_strains) {
-			if (z === strain) {
-				return "player_1";
+		for (let [player_name, team] of Object.entries(this.observations[i].teams)) {
+			for (let z of team.factory_strains) {
+				if (z === strain) {
+					return player_name;
+				}
 			}
 		}
 		return null;
@@ -164,10 +161,11 @@ const replay_prototype = {
 	},
 
 	get_unit_by_id: function(i, s) {
-		let p0_unit = this.observations[i].units.player_0[s];
-		if (p0_unit) return p0_unit;
-		let p1_unit = this.observations[i].units.player_1[s];
-		if (p1_unit) return p1_unit;
+		for (let units_object of Object.values(this.observations[i].units)) {
+			if (units_object[s]) {
+				return units_object[s];
+			}
+		}
 		return null;
 	},
 
@@ -195,10 +193,11 @@ const replay_prototype = {
 	},
 
 	get_factory_by_id: function(i, s) {
-		let p0_factory = this.observations[i].factories.player_0[s];
-		if (p0_factory) return p0_factory;
-		let p1_factory = this.observations[i].factories.player_1[s];
-		if (p1_factory) return p1_factory;
+		for (let factories_object of Object.values(this.observations[i].factories)) {
+			if (factories_object[s]) {
+				return factories_object[s];
+			}
+		}
 		return null;
 	},
 
@@ -211,19 +210,16 @@ const replay_prototype = {
 	},
 
 	lichen_scores: function(i) {
-
-		let ret = {player_0: 0, player_1: 0};
-
+		let ret = {
+			player_0: 0,
+			player_1: 0,
+		};
 		for (let x = 0; x < this.width; x++) {
-
 			for (let y = 0; y < this.height; y++) {
-
 				let strain = this.lichen_strains[i][x][y];
-
 				if (strain === -1) {
 					continue;
 				}
-
 				for (let [player_name, team] of Object.entries(this.observations[i].teams)) {
 					for (let z of team.factory_strains) {
 						if (z === strain) {
@@ -234,7 +230,6 @@ const replay_prototype = {
 				}
 			}
 		}
-
 		return ret;
 	},
 };
