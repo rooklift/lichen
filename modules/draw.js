@@ -152,7 +152,7 @@ function unit_info_lines(replay, index, unit) {
 	lines.push(`<span class="player_${unit.team_id}">${unit.unit_id}</span> &nbsp; ` +
 				`<span class="power">⚡${unit.power}</span> &nbsp; [${unit.pos[0]},${unit.pos[1]}]`);
 	lines.push(
-		`🧊${unit.cargo.ice} &nbsp; 🥔${unit.cargo.ore} &nbsp; 💧${unit.cargo.water} &nbsp; ⚙️${unit.cargo.metal}`
+		`🧊${unit.cargo.ice} &nbsp; 🌑${unit.cargo.ore} &nbsp; 💧${unit.cargo.water} &nbsp; ⚙️${unit.cargo.metal}`
 	);
 	lines.push(``);
 	let queue;
@@ -181,7 +181,7 @@ function factory_info_lines(replay, index, factory) {
 	lines.push(`<span class="player_${factory.team_id}">${factory.unit_id}</span> &nbsp; ` +
 				`<span class="power">⚡${factory.power}</span> &nbsp; [${factory.pos[0]},${factory.pos[1]}]`);
 	lines.push(
-		`🧊${factory.cargo.ice} &nbsp; 🥔${factory.cargo.ore} &nbsp; 💧${factory.cargo.water} &nbsp; ⚙️${factory.cargo.metal}`
+		`🧊${factory.cargo.ice} &nbsp; 🌑${factory.cargo.ore} &nbsp; 💧${factory.cargo.water} &nbsp; ⚙️${factory.cargo.metal}`
 	);
 
 	return lines;
