@@ -124,25 +124,25 @@ function fill_triangle(colour, ctx, cell_size, x, y, direction) {
 	let a = 0.1;
 	let b = 0.5;
 	let c = 1 - a;
-	if (direction === 1) {
+	if (direction === enums.UP) {
 		ctx.beginPath();
 		ctx.moveTo((x + a) * cell_size, (y + c) * cell_size);
 		ctx.lineTo((x + c) * cell_size, (y + c) * cell_size);
 		ctx.lineTo((x + b) * cell_size, (y + a) * cell_size);
 		ctx.fill();
-	} else if (direction === 2) {
+	} else if (direction === enums.RIGHT) {
 		ctx.beginPath();
 		ctx.moveTo((x + a) * cell_size, (y + a) * cell_size);
 		ctx.lineTo((x + a) * cell_size, (y + c) * cell_size);
 		ctx.lineTo((x + c) * cell_size, (y + b) * cell_size);
 		ctx.fill();
-	} else if (direction === 3) {
+	} else if (direction === enums.DOWN) {
 		ctx.beginPath();
 		ctx.moveTo((x + a) * cell_size, (y + a) * cell_size);
 		ctx.lineTo((x + c) * cell_size, (y + a) * cell_size);
 		ctx.lineTo((x + b) * cell_size, (y + c) * cell_size);
 		ctx.fill();
-	} else if (direction === 4) {
+	} else if (direction === enums.LEFT) {
 		ctx.beginPath();
 		ctx.moveTo((x + c) * cell_size, (y + a) * cell_size);
 		ctx.lineTo((x + c) * cell_size, (y + c) * cell_size);
