@@ -271,19 +271,17 @@ const replay_prototype = {
 			player_0: 0,
 			player_1: 0,
 		};
+		let strain_map = {};
+		for (let [player_name, team] of Object.entries(this.observations[i].teams)) {
+			for (let z of team.factory_strains) {
+				strain_map[z] = player_name;
+			}
+		}
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
 				let strain = this.lichen_strains[i][x][y];
-				if (strain === -1) {
-					continue;
-				}
-				for (let [player_name, team] of Object.entries(this.observations[i].teams)) {
-					for (let z of team.factory_strains) {
-						if (z === strain) {
-							ret[player_name] += this.lichen[i][x][y];
-							break;
-						}
-					}
+				if (strain_map.hasOwnProperty(strain)) {
+					ret[strain_map[strain]] += this.lichen[i][x][y];
 				}
 			}
 		}
