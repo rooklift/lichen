@@ -3,10 +3,11 @@
 const {NORMAL, ICE, ORE, new_selection} = require("./types");
 const {new_2d_array, copy_2d_array} = require("./utils");
 
-function new_replay(steps, width, height, name_0, name_1) {
+function new_replay(cfg, steps, width, height, name_0, name_1) {
 
 	let ret = Object.create(replay_prototype);
 
+	ret.cfg = cfg;
 	ret.steps = steps;
 	ret.width = width;
 	ret.height = height;
@@ -89,10 +90,6 @@ const replay_prototype = {
 
 	// --------------------------------------------------------------------------------------------
 
-	cfg: function() {
-		return require("./env_cfg");				// TODO - if present in the replay, use it instead.
-	},
-
 	real_step: function(i) {
 		return this.observations[i].real_env_steps;
 	},
@@ -102,7 +99,7 @@ const replay_prototype = {
 		if (real_step < 0) {
 			return false;
 		}
-		return real_step % this.cfg().CYCLE_LENGTH >= this.cfg().DAY_LENGTH;
+		return real_step % this.cfg.CYCLE_LENGTH >= this.cfg.DAY_LENGTH;
 	},
 
 	cell_type: function(x, y) {
@@ -191,7 +188,7 @@ const replay_prototype = {
 		if (!unit) {
 			return false;
 		}
-		if (unit.power < this.cfg().ROBOTS[unit.unit_type].ACTION_QUEUE_POWER_COST) {
+		if (unit.power < this.cfg.ROBOTS[unit.unit_type].ACTION_QUEUE_POWER_COST) {
 			return false;
 		}
 		return true;
