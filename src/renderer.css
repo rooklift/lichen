@@ -34,10 +34,18 @@ body {
 	color: #ffffffff;
 }
 
+.black {
+	color: #080808ff;
+}
+
 .warning {
 	color: #ffff88ff;
 }
 
 .power {
 	color: #ffffaaff;
+}
+
+td {
+	padding: 0;
 }

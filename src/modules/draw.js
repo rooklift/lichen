@@ -154,14 +154,7 @@ function fill_triangle(colour, ctx, cell_size, x, y, direction) {
 }
 
 function draw_info(replay, index, infodiv, selection) {
-	let lines = [];
-	lines.push(``);
-	lines.push(`Turn ${replay.real_step(index)} &nbsp; ${replay.is_night(index) ? '<span class="gray">(Night)</span>' : ''}`);
-	let scores = replay.lichen_scores(index);
-	let robot_counts = replay.robot_counts(index);
-	lines.push(`<span class="player_0">🌿${scores.player_0} &nbsp; 🤖${robot_counts.player_0.HEAVY} + ${robot_counts.player_0.LIGHT}</span>`);
-	lines.push(`<span class="player_1">🌿${scores.player_1} &nbsp; 🤖${robot_counts.player_1.HEAVY} + ${robot_counts.player_1.LIGHT}</span>`);
-	lines.push(``);
+	let lines = [];				// Will be joined by <br> tags.
 	if (selection) {
 		if (selection.type === "unit") {
 			let unit = replay.get_unit_by_id(index, selection.name);
@@ -187,7 +180,7 @@ function draw_info(replay, index, infodiv, selection) {
 			lines = lines.concat(cell_info_lines(replay, index, selection));
 		}
 	}
-	infodiv.innerHTML = lines.join("<br>\n");
+	infodiv.innerHTML = summary_table(replay, index) + `<br>` + lines.join("<br>\n");
 }
 
 function unit_info_lines(replay, index, unit) {
@@ -221,7 +214,7 @@ function factory_info_lines(replay, index, factory) {
 	lines.push(`<span class="player_${factory.team_id}">${factory.unit_id}</span> &nbsp; <span class="power">⚡${factory.power}</span>`);
 	lines.push(`🧊${factory.cargo.ice} &nbsp; 🌑${factory.cargo.ore} &nbsp; 💧${factory.cargo.water} &nbsp; ⚙️${factory.cargo.metal}`);
 	let [score, tiles] = replay.factory_lichen(index, factory.strain_id);
-	lines.push(`🌿${score} [${tiles}]`);
+	lines.push(`🌿<span class="player_${factory.team_id}">${score} [${tiles}]</span>`);
 	let request = replay.factory_request(index, factory.unit_id);
 	if (typeof request === "number") {
 		lines.push(``);
@@ -283,6 +276,22 @@ function make_colour_scale(dark_rgb, light_rgb) {
 	return ret;
 }
 
+
+function summary_table(replay, index) {
+
+	let scores = replay.lichen_scores(index);
+	let robot_counts = replay.robot_counts(index);
+
+	let table = `<table>
+		<tr class="black"><td>Lichen..........</td><td>Robots...</td></tr>
+		<tr><td colspan="2">Turn ${replay.real_step(index)} &nbsp; ${replay.is_night(index) ? '<span class="gray">(Night)</span>' : ''}</td></tr>
+		<tr class="player_0"><td>🌿${scores.player_0}</td><td>🤖${robot_counts.player_0.HEAVY} + ${robot_counts.player_0.LIGHT}</td></tr>
+		<tr class="player_1"><td>🌿${scores.player_1}</td><td>🤖${robot_counts.player_1.HEAVY} + ${robot_counts.player_1.LIGHT}</td></tr>
+		</table>`;
+
+	return table;
+
+}
 
 
 module.exports = {draw, calculate_square_size};
