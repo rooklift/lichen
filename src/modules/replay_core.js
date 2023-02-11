@@ -79,8 +79,7 @@ const replay_prototype = {
 			for (let key of ["rubble", "lichen", "lichen_strains"]) {
 				let new_map = copy_2d_array(this[key][i - 1]);
 				for (let [coords, val] of Object.entries(obs.board[key])) {
-					let [xs, ys] = coords.split(",");
-					let [x, y] = [parseInt(xs, 10), parseInt(ys, 10)];
+					let [x, y] = coords.split(",").map(s => parseInt(s, 10));
 					new_map[x][y] = val;
 				}
 				this[key].push(new_map);
