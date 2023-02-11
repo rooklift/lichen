@@ -12,7 +12,7 @@ function load_local_replay(r) {
 	let name_1;
 
 	try { name_0 = r.actions[0].player_0.faction; } catch (err) { name_0 = "Unknown"; }
-	try { name_1 = r.actions[0].player_1.faction; } catch (err) { name_0 = "Unknown"; }
+	try { name_1 = r.actions[0].player_1.faction; } catch (err) { name_1 = "Unknown"; }
 
 	let ret = new_replay(cfg, steps, size, size, name_0, name_1);
 
