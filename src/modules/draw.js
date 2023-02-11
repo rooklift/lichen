@@ -276,7 +276,6 @@ function make_colour_scale(dark_rgb, light_rgb) {
 	return ret;
 }
 
-
 function summary_table(replay, index) {
 
 	let scores = replay.lichen_scores(index);

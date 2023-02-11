@@ -2,7 +2,6 @@
 
 const {new_replay} = require("./replay_core");
 
-
 function load_local_replay(r) {
 
 	let cfg = require("./env_cfg");
@@ -44,5 +43,6 @@ function load_kaggle_replay(r) {
 	ret.init(all_observations, all_actions);
 	return ret;
 }
+
 
 module.exports = {load_local_replay, load_kaggle_replay};
