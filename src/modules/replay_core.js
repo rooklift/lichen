@@ -227,7 +227,7 @@ const replay_prototype = {
 		return new_selection("tile", "tile", 0, i, x, y);
 	},
 
-	unit_direction: function(i, s) {
+	unit_direction: function(i, s) {				// Note: does not consider whether the move will succeed.
 		let unit = this.get_unit_by_id(i, s);
 		if (!unit) {
 			return 0;
@@ -242,7 +242,7 @@ const replay_prototype = {
 		if (queue.length === 0) {
 			return 0;
 		}
-		if (queue[0][0] !== 0) {
+		if (queue[0][0] !== enums.MOVE) {
 			return 0;
 		}
 		return queue[0][1];
@@ -299,6 +299,12 @@ const replay_prototype = {
 			ret[player_name][rtype]++;
 		}
 		return ret;
+	},
+
+	movement_cost: function(i, x, y, rtype) {
+		let base = this.cfg.ROBOTS[rtype].MOVE_COST;
+		let mult = this.cfg.ROBOTS[rtype].RUBBLE_MOVEMENT_COST;
+		return Math.floor(base + mult * this.cell_rubble(i, x, y));
 	},
 };
 
