@@ -282,15 +282,25 @@ function summary_table(replay, index) {
 	let scores = replay.lichen_scores(index);
 	let robot_counts = replay.robot_counts(index);
 
-	let table = `<table>
-		<tr class="black"><td>Lichen..........</td><td>Robots...</td></tr>
-		<tr><td>Turn ${replay.real_step(index)}</td><td span class="gray">${replay.is_night(index) ? "(Night)" : ""}</td></tr>
-		<tr class="player_0"><td>🌿${scores.player_0}</td><td>🤖${robot_counts.player_0.HEAVY} + ${robot_counts.player_0.LIGHT}</td></tr>
-		<tr class="player_1"><td>🌿${scores.player_1}</td><td>🤖${robot_counts.player_1.HEAVY} + ${robot_counts.player_1.LIGHT}</td></tr>
-		</table>`;
-
-	return table;
-
+	return `
+	<table>
+		<tr class="black">
+			<td>Lichen..........</td>
+			<td>Robots...</td>
+		</tr>
+		<tr>
+			<td>Turn ${replay.real_step(index)}</td>
+			<td class="gray">${replay.is_night(index) ? "(Night)" : ""}</td>
+		</tr>
+		<tr class="player_0">
+			<td>🌿${scores.player_0}</td>
+			<td>🤖${robot_counts.player_0.HEAVY} + ${robot_counts.player_0.LIGHT}</td>
+		</tr>
+		<tr class="player_1">
+			<td>🌿${scores.player_1}</td>
+			<td>🤖${robot_counts.player_1.HEAVY} + ${robot_counts.player_1.LIGHT}</td>
+		</tr>
+	</table>`;
 }
 
 
