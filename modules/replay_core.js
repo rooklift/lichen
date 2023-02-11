@@ -176,7 +176,11 @@ const replay_prototype = {
 		if (!unit) {
 			return null;
 		}
-		let request = this.actions[i][`player_${unit.team_id}`][unit.unit_id];
+		let all_player_actions = this.actions[i][`player_${unit.team_id}`];
+		if (typeof all_player_actions !== "object" || all_player_actions === null) {
+			return null;
+		}
+		let request = all_player_actions[unit.unit_id];
 		if (!request) {
 			return null;
 		}
@@ -199,7 +203,11 @@ const replay_prototype = {
 		if (!factory) {
 			return null;
 		}
-		let request = this.actions[i][`player_${factory.team_id}`][factory.unit_id];
+		let all_player_actions = this.actions[i][`player_${factory.team_id}`];
+		if (typeof all_player_actions !== "object" || all_player_actions === null) {
+			return null;
+		}
+		let request = all_player_actions[factory.unit_id];
 		if (request === undefined) {				// Note that it could be 0
 			return null;
 		}
