@@ -1,7 +1,5 @@
 "use strict";
 
-// These are used internally for our map. The values don't really matter but I've made ICE and ORE match Lux enums.
-
 exports.enums = {
 
 	NORMAL: -1,				// Used internally for our map of the world (means no ice/ore)
