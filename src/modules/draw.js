@@ -149,7 +149,7 @@ function fill_triangle(colour, ctx, cell_size, x, y, direction) {
 		ctx.lineTo((x + a) * cell_size, (y + b) * cell_size);
 		ctx.fill();
 	} else {
-		fill_circle(colour, ctx, cell_size, x, y)
+		fill_circle(colour, ctx, cell_size, x, y);
 	}
 }
 

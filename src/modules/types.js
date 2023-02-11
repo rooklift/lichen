@@ -60,8 +60,8 @@ exports.printable_action = function(action) {
 	}
 
 	return "??";
-}
+};
 
 exports.new_selection = function(type, name, team_id, i, x, y) {
 	return {type, name, team_id, i, x, y};
-}
+};
