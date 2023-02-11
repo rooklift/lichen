@@ -3,7 +3,7 @@
 const {new_replay} = require("./replay_core");
 
 
-function fixed_local_replay(r) {
+function load_local_replay(r) {
 
 	let cfg = require("./env_cfg");
 	let steps = r.observations.length;
@@ -20,7 +20,7 @@ function fixed_local_replay(r) {
 	return ret;
 }
 
-function fixed_kaggle_replay(r) {
+function load_kaggle_replay(r) {
 
 	let cfg = r.configuration.env_cfg;
 	let steps = r.steps.length;
@@ -45,4 +45,4 @@ function fixed_kaggle_replay(r) {
 	return ret;
 }
 
-module.exports = {fixed_local_replay, fixed_kaggle_replay};
+module.exports = {load_local_replay, load_kaggle_replay};

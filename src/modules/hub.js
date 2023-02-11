@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const {ipcRenderer} = require("electron");
 const {draw, calculate_square_size} = require("./draw");
-const {fixed_local_replay, fixed_kaggle_replay} = require("./replay_import");
+const {load_local_replay, load_kaggle_replay} = require("./replay_import");
 const config_io = require("./config_io");
 
 function init() {
@@ -57,9 +57,9 @@ let hub_main_props = {
 		}
 
 		if (o.actions) {
-			this.replay = fixed_local_replay(o);
+			this.replay = load_local_replay(o);
 		} else if (o.steps) {
-			this.replay = fixed_kaggle_replay(o);
+			this.replay = load_kaggle_replay(o);
 		} else {
 			alert("This does not appear to be a replay.");
 			return;
