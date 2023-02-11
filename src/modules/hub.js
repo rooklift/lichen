@@ -56,13 +56,15 @@ let hub_main_props = {
 			return;
 		}
 
-		// TODO - some further validation here.
-
 		if (o.actions) {
 			this.replay = fixed_local_replay(o);
-		} else {
+		} else if (o.steps) {
 			this.replay = fixed_kaggle_replay(o);
+		} else {
+			alert("This does not appear to be a replay.");
+			return;
 		}
+
 		this.index = 0;
 		this.selection = null;
 
