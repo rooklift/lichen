@@ -1,6 +1,6 @@
 "use strict";
 
-const {NORMAL, ICE, ORE, BUILD_LIGHT, BUILD_HEAVY, WATER_LICHEN, printable_action} = require("./types");
+const {enums, printable_action} = require("./types");
 
 const all_rubble_colours = make_colour_scale([0x96, 0x96, 0x96], [0xe6, 0xe6, 0xe6]);
 const blue_lichen_colours = make_colour_scale([0x8b, 0xc0, 0xed], [0xde, 0xe9, 0xf2]);
@@ -47,13 +47,13 @@ function draw(replay, index, canvas, infodiv, selection) {
 				} else {
 					fill_cell(red_lichen_colours[lichen], ctx, cell_size, x, y);
 				}
-			} else if (cell_type === NORMAL) {
+			} else if (cell_type === enums.NORMAL) {
 				let rubble = replay.cell_rubble(index, x, y);
 				let colour = rubble > 100 ? all_rubble_colours[100] : all_rubble_colours[rubble];
 				fill_cell(colour, ctx, cell_size, x, y);
-			} else if (cell_type === ICE) {
+			} else if (cell_type === enums.ICE) {
 				fill_cell(water_colour, ctx, cell_size, x, y);
-			} else if (cell_type === ORE) {
+			} else if (cell_type === enums.ORE) {
 				fill_cell(ore_colour, ctx, cell_size, x, y);
 			}
 		}
@@ -224,11 +224,11 @@ function factory_info_lines(replay, index, factory) {
 	let request = replay.factory_request(index, factory.unit_id);
 	if (typeof request === "number") {
 		lines.push(``);
-		if (request === BUILD_LIGHT) {
+		if (request === enums.BUILD_LIGHT) {
 			lines.push("Build light");
-		} else if (request === BUILD_HEAVY) {
+		} else if (request === enums.BUILD_HEAVY) {
 			lines.push("Build heavy");
-		} else if (request === WATER_LICHEN) {
+		} else if (request === enums.WATER_LICHEN) {
 			lines.push("Water lichen");
 		}
 	}
@@ -245,9 +245,9 @@ function cell_info_lines(replay, index, xy_haver) {
 	let lichen = replay.cell_lichen(index, x, y);
 	let lichen_strain = replay.cell_lichen_strain(index, x, y);
 
-	if (replay.cell_type(x, y) === ICE) {
+	if (replay.cell_type(x, y) === enums.ICE) {
 		lines.push(`[${x},${y}] &nbsp; Ice${rubble > 0 ? ", " + rubble.toString() + " rubble" : ""}`);
-	} else if (replay.cell_type(x, y) === ORE) {
+	} else if (replay.cell_type(x, y) === enums.ORE) {
 		lines.push(`[${x},${y}] &nbsp; Ore${rubble > 0 ? ", " + rubble.toString() + " rubble" : ""}`);
 	} else if (lichen > 0) {
 		lines.push(`[${x},${y}] &nbsp; ${lichen} lichen (strain ${lichen_strain})`);

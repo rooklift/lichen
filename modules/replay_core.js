@@ -1,6 +1,6 @@
 "use strict";
 
-const {NORMAL, ICE, ORE, new_selection} = require("./types");
+const {enums, new_selection} = require("./types");
 const {new_2d_array, copy_2d_array} = require("./utils");
 
 function new_replay(cfg, steps, width, height, name_0, name_1) {
@@ -61,11 +61,11 @@ const replay_prototype = {
 				this.lichen_strains[0][x][y] = board_zero.lichen_strains[x][y];
 
 				if (board_zero.ice[x][y] > 0) {
-					this.map[x][y] = ICE;
+					this.map[x][y] = enums.ICE;
 				} else if (board_zero.ore[x][y] > 0) {
-					this.map[x][y] = ORE;
+					this.map[x][y] = enums.ORE;
 				} else {
-					this.map[x][y] = NORMAL;
+					this.map[x][y] = enums.NORMAL;
 				}
 			}
 		}
