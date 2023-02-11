@@ -156,12 +156,11 @@ function fill_triangle(colour, ctx, cell_size, x, y, direction) {
 function draw_info(replay, index, infodiv, selection) {
 	let lines = [];
 	lines.push(``);
-	let turn_class = replay.is_night(index) ? "gray" : "white";
-	lines.push(`<span class="${turn_class}">Turn ${replay.real_step(index)}</span>`);
+	lines.push(`Turn ${replay.real_step(index)} &nbsp; ${replay.is_night(index) ? '<span class="gray">(Night)</span>' : ''}`);
 	let scores = replay.lichen_scores(index);
-	if (scores.player_0 > 0 || scores.player_1 > 0) {
-		lines[lines.length - 1] += ` &ndash; <span class="player_0">${scores.player_0}</span> vs <span class="player_1">${scores.player_1}</span>`;
-	}
+	let robot_counts = replay.robot_counts(index);
+	lines.push(`<span class="player_0">🌿${scores.player_0} &nbsp; 🤖${robot_counts.player_0.HEAVY} + ${robot_counts.player_0.LIGHT}</span>`);
+	lines.push(`<span class="player_1">🌿${scores.player_1} &nbsp; 🤖${robot_counts.player_1.HEAVY} + ${robot_counts.player_1.LIGHT}</span>`);
 	lines.push(``);
 	if (selection) {
 		if (selection.type === "unit") {
@@ -222,7 +221,7 @@ function factory_info_lines(replay, index, factory) {
 	lines.push(`<span class="player_${factory.team_id}">${factory.unit_id}</span> &nbsp; <span class="power">⚡${factory.power}</span>`);
 	lines.push(`🧊${factory.cargo.ice} &nbsp; 🌑${factory.cargo.ore} &nbsp; 💧${factory.cargo.water} &nbsp; ⚙️${factory.cargo.metal}`);
 	let [score, tiles] = replay.factory_lichen(index, factory.strain_id);
-	lines.push(`🍀${score} [${tiles}]`);
+	lines.push(`🌿${score} [${tiles}]`);
 	let request = replay.factory_request(index, factory.unit_id);
 	if (typeof request === "number") {
 		lines.push(``);

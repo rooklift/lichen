@@ -287,6 +287,19 @@ const replay_prototype = {
 		}
 		return ret;
 	},
+
+	robot_counts: function(i) {
+		let ret = {
+			player_0: {"LIGHT": 0, "HEAVY": 0},
+			player_1: {"LIGHT": 0, "HEAVY": 0},
+		};
+		for (let unit of this.get_units(i)) {
+			let player_name = `player_${unit.team_id}`;
+			let rtype = unit.unit_type
+			ret[player_name][rtype]++;
+		}
+		return ret;
+	},
 };
 
 
