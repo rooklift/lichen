@@ -221,6 +221,8 @@ function factory_info_lines(replay, index, factory) {
 	let lines = [];
 	lines.push(`<span class="player_${factory.team_id}">${factory.unit_id}</span> &nbsp; <span class="power">⚡${factory.power}</span>`);
 	lines.push(`🧊${factory.cargo.ice} &nbsp; 🌑${factory.cargo.ore} &nbsp; 💧${factory.cargo.water} &nbsp; ⚙️${factory.cargo.metal}`);
+	let [score, tiles] = replay.factory_lichen(index, factory.strain_id);
+	lines.push(`🍀${score} [${tiles}]`);
 	let request = replay.factory_request(index, factory.unit_id);
 	if (typeof request === "number") {
 		lines.push(``);

@@ -249,6 +249,24 @@ const replay_prototype = {
 		return queue[0][1];
 	},
 
+	factory_lichen: function(i, strain) {
+		let score = 0;
+		let tiles = 0;
+		for (let x = 0; x < this.width; x++) {
+			for (let y = 0; y < this.height; y++) {
+				let z = this.lichen_strains[i][x][y];
+				if (z !== strain) {
+					continue;
+				}
+				if (this.lichen[i][x][y] > 0) {
+					score += this.lichen[i][x][y];
+					tiles += 1;
+				}
+			}
+		}
+		return [score, tiles];
+	},
+
 	lichen_scores: function(i) {
 		let ret = {
 			player_0: 0,
