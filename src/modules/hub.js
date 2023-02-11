@@ -131,6 +131,14 @@ let hub_main_props = {
 		this.draw();
 	},
 
+	adjust_font_size: function(n) {
+		let sz = config.info_font_size;
+		sz += n;
+		if (sz < 12) sz = 12;
+		if (sz > 128) sz = 128;
+		this.set("info_font_size", sz);
+	},
+
 };
 
 

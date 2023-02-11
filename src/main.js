@@ -318,6 +318,29 @@ function menu_build() {
 						win.webContents.send("toggle", "triangles");
 					}
 				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Increase font size",
+					accelerator: "CommandOrControl+]",
+					click: () => {
+						win.webContents.send("call", {
+							fn: "adjust_font_size",
+							args: [2]
+						});
+					}
+				},
+				{
+					label: "Decrease font size",
+					accelerator: "CommandOrControl+[",
+					click: () => {
+						win.webContents.send("call", {
+							fn: "adjust_font_size",
+							args: [-2]
+						});
+					}
+				},
 			],
 		},
 	];

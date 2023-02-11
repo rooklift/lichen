@@ -26,7 +26,17 @@ module.exports = {
 
 			case "triangles":
 			case "maxed":
+
 				hub.draw();
+				break;
+
+			case "info_font_size":
+
+				this.infodiv.style["font-size"] = value.toString() + "px";
+				break;
+
+			default:
+
 				break;
 		}
 
