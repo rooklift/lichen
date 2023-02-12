@@ -66,9 +66,23 @@ function draw(replay, index, canvas, infodiv, selection, mouse) {
 	}
 
 	for (let factory of replay.get_factories(index)) {
+
 		let [x, y] = factory.pos;
+
+		let x1 = (x - 1) * cell_size;
+		let y1 = (y - 1) * cell_size;
 		ctx.fillStyle = factory_colours[factory.team_id];
-		ctx.fillRect((x - 1) * cell_size + 1, (y - 1) * cell_size + 1, cell_size * 3 - 1, cell_size * 3 - 1);
+		ctx.fillRect(x1, y1, cell_size * 3, cell_size * 3);
+
+		let x2 = (x + 2) * cell_size;
+		let y2 = (y + 2) * cell_size;
+		let ln = cell_size * 3 + 1;
+		let wd = 3;
+		ctx.fillStyle = "#ffffffff";
+		ctx.fillRect(x1 + 0, y1 + 0, wd, ln);		// Left edge
+		ctx.fillRect(x2 - 2, y1 + 0, wd, ln);		// Right edge
+		ctx.fillRect(x1 + 0, y1 + 0, ln, wd);		// Top edge
+		ctx.fillRect(x1 + 0, y2 - 2, ln, wd);		// Bottom edge
 	}
 
 	for (let unit of replay.get_units(index)) {
