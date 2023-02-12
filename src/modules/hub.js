@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const {ipcRenderer} = require("electron");
 const {draw, calculate_square_size} = require("./draw");
+const {draw_info} = require("./draw_info");
 const {load_local_replay, load_kaggle_replay} = require("./replay_import");
 const config_io = require("./config_io");
 
@@ -150,7 +151,8 @@ let hub_main_props = {
 	},
 
 	draw: function() {
-		draw(this.replay, this.index, this.canvas, this.infodiv, this.selection, this.mouse);
+		draw(this.replay, this.index, this.canvas, this.selection, this.mouse);
+		draw_info(this.replay, this.index, this.infodiv, this.selection, this.mouse);
 	},
 
 	clear_selection: function() {
