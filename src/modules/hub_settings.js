@@ -6,6 +6,7 @@ const multichecks = {};
 const togglechecks = {
 	autoplay: 		["Step", "Autoplay"],
 	triangles:		["Misc", "Light triangles"],
+	gridlines:		["Misc", "Gridlines"],
 };
 
 for (let menupath of Object.values(multichecks)) {
@@ -24,6 +25,7 @@ module.exports = {
 
 		switch (key) {				// Any needed followup actions.
 
+			case "gridlines":
 			case "triangles":
 			case "maxed":
 

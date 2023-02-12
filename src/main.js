@@ -319,6 +319,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Gridlines",
+					type: "checkbox",
+					checked: config.gridlines,
+					click: () => {
+						win.webContents.send("toggle", "gridlines");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{

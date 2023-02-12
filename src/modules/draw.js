@@ -130,7 +130,11 @@ function draw(replay, index, canvas, infodiv, selection, mouse) {
 
 function fill_cell(colour, ctx, cell_size, x, y) {
 	ctx.fillStyle = colour;
-	ctx.fillRect(x * cell_size + 1, y * cell_size + 1, cell_size - 1, cell_size - 1);
+	if (config.gridlines) {
+		ctx.fillRect(x * cell_size + 1, y * cell_size + 1, cell_size - 1, cell_size - 1);
+	} else {
+		ctx.fillRect(x * cell_size, y * cell_size, cell_size, cell_size);
+	}
 }
 
 function fill_circle(colour, ctx, cell_size, x, y) {
