@@ -70,7 +70,7 @@ function draw(replay, index, canvas, infodiv, selection, mouse) {
 		let x1 = (x - 1) * cell_size;
 		let y1 = (y - 1) * cell_size;
 		ctx.fillStyle = factory_colours[factory.team_id];
-		ctx.fillRect(x1, y1, cell_size * 3, cell_size * 3);
+		ctx.fillRect(x1, y1, cell_size * 3 + 1, cell_size * 3 + 1);
 	}
 
 	for (let unit of replay.get_units(index)) {
