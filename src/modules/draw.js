@@ -139,6 +139,10 @@ function fill_circle(colour, ctx, cell_size, x, y) {
 	ctx.fillStyle = colour;
 	let gx = x * cell_size + (cell_size / 2) + 0.5;
 	let gy = y * cell_size + (cell_size / 2) + 0.5;
+	if (!config.gridlines) {
+		gx -= 0.5;
+		gy -= 0.5;
+	}
 	ctx.beginPath();
 	ctx.arc(gx, gy, Math.max(cell_size / 2 - 2, 1), 0, 2 * Math.PI);
 	ctx.fill();
