@@ -66,6 +66,7 @@ canvas.addEventListener("mousedown", (event) => {
 });
 
 window.addEventListener("mousedown", (event) => {
+	event.preventDefault();							// Stop from selecting text etc.
 	hub.clear_selection();
 });
 
