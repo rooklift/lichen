@@ -191,16 +191,45 @@ function unit_info_lines(replay, index, unit) {
 	lines.push(`🧊${unit.cargo.ice} &nbsp; 🌑${unit.cargo.ore} &nbsp; 💧${unit.cargo.water} &nbsp; ⚙️${unit.cargo.metal}`);
 	lines.push(``);
 	let queue;
+	let power_left = unit.power;
 	let request = replay.unit_request(index, unit.unit_id);
-	if (request) {
+	if (request) {							// Which might be []
 		queue = request;
+		power_left -= replay.cfg.ROBOTS[unit.unit_type].ACTION_QUEUE_POWER_COST;
 		lines.push(`<span class="player_${unit.team_id}">New request issued:</span>`);
 	} else {
 		queue = unit.action_queue;
 		lines.push(``);
 	}
-	for (let action of queue) {
-		lines.push(`${printable_action(action)}`);
+	let unable = false;
+	if (queue.length > 0) {
+		 if (queue[0][0] === enums.MOVE && queue[0][1] !== enums.CENTRE) {
+			let [x, y] = unit.pos;
+			let direction = queue[0][1];
+			if (direction === enums.UP) y--;
+			if (direction === enums.RIGHT) x++;
+			if (direction === enums.DOWN) y++;
+			if (direction === enums.LEFT) x--;
+			if (x < 0 || x >= replay.width || y < 0 || y >= replay.height) {
+				unable = true;
+			} else {
+				if (power_left < replay.movement_cost(index, x, y, unit.unit_type)) {
+					unable = true;
+				}
+			}
+		} else if (queue[0][0] === enums.DIG) {
+			if (power_left < replay.cfg.ROBOTS[unit.unit_type].DIG_COST) {
+				unable = true;
+			}
+		} else if (queue[0][0] === enums.SELFDESTRUCT) {
+			if (power_left < replay.cfg.ROBOTS[unit.unit_type].SELF_DESTRUCT_COST) {
+				unable = true;
+			}
+		}
+	}
+	for (let i = 0; i < queue.length; i++) {
+		let action = queue[i];
+		lines.push(`${printable_action(action)} &nbsp; ${unable && i === 0 ? '<span class="warning">(unable)</span>' : ""}`);
 	}
 	if (request && !replay.unit_can_receive_request(index, unit.unit_id)) {
 		lines.push(`<span class="warning">Unit cannot receive this request!</span>`);
