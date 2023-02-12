@@ -60,8 +60,13 @@ window.addEventListener("drop", (event) => {
 // ------------------------------------------------------------------------------------------------
 
 canvas.addEventListener("mousedown", (event) => {
-	event.preventDefault();
+	event.preventDefault();							// Stop from selecting text etc.
+	event.stopPropagation();						// So it can't reach the window handler, see below.
 	hub.click(event.offsetX, event.offsetY);
+});
+
+window.addEventListener("mousedown", (event) => {
+	hub.clear_selection();
 });
 
 for (let s of ["mousemove", "mouseleave"]) {
