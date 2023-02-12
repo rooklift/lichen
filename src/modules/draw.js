@@ -63,8 +63,9 @@ function draw(replay, index, canvas, selection, mouse) {
 		let [x, y] = factory.pos;
 		let x1 = (x - 1) * cell_size;
 		let y1 = (y - 1) * cell_size;
+		let ln = config.gridlines ? cell_size * 3 + 1 : cell_size * 3;
 		ctx.fillStyle = factory_colours[factory.team_id];
-		ctx.fillRect(x1, y1, cell_size * 3 + 1, cell_size * 3 + 1);
+		ctx.fillRect(x1, y1, ln, ln);
 	}
 
 	for (let unit of replay.get_units(index)) {
@@ -87,6 +88,11 @@ function draw(replay, index, canvas, selection, mouse) {
 		let x2 = (x + 2) * cell_size;
 		let y2 = (y + 2) * cell_size;
 		let ln = cell_size * 3 + 1;
+		if (!config.gridlines) {
+			x2--;
+			y2--;
+			ln--;
+		}
 		let wd = 3;
 		ctx.fillStyle = "#000000ff";
 		ctx.fillRect(x1 + 0, y1 + 0, wd, ln);		// Left edge
