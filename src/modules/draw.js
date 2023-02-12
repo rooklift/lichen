@@ -215,6 +215,11 @@ function unit_info_lines(replay, index, unit) {
 			} else {
 				if (power_left < replay.movement_cost(index, x, y, unit.unit_type)) {
 					unable = true;
+				} else {
+					let wia = replay.what_is_at(index, x, y);
+					if (wia.type === "factory" && wia.team_id !== unit.team_id) {
+						unable = true;
+					}
 				}
 			}
 		} else if (queue[0][0] === enums.DIG) {
