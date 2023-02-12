@@ -10,7 +10,7 @@ const factory_colours = [blue_lichen_colours[100], red_lichen_colours[100]];
 const unit_colours = ["#228be6ff", "#f03e3eff"];
 
 const ore_colour = "#181818ff";
-const water_colour = "#48dbfbff";
+const ice_colour = "#48dbfbff";
 
 
 function draw(replay, index, canvas, selection, mouse) {
@@ -52,7 +52,7 @@ function draw(replay, index, canvas, selection, mouse) {
 				let colour = rubble > 100 ? all_rubble_colours[100] : all_rubble_colours[rubble];
 				fill_cell(colour, ctx, cell_size, x, y);
 			} else if (cell_type === enums.ICE) {
-				fill_cell(water_colour, ctx, cell_size, x, y);
+				fill_cell(ice_colour, ctx, cell_size, x, y);
 			} else if (cell_type === enums.ORE) {
 				fill_cell(ore_colour, ctx, cell_size, x, y);
 			}
