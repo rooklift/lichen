@@ -66,8 +66,8 @@ function draw(replay, index, canvas, infodiv, selection, mouse) {
 	}
 
 	for (let factory of replay.get_factories(index)) {
-		ctx.fillStyle = factory_colours[factory.team_id];
 		let [x, y] = factory.pos;
+		ctx.fillStyle = factory_colours[factory.team_id];
 		ctx.fillRect((x - 1) * cell_size + 1, (y - 1) * cell_size + 1, cell_size * 3 - 1, cell_size * 3 - 1);
 	}
 
