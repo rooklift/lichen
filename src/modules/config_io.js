@@ -25,6 +25,7 @@ exports.defaults = {
 	height:				768,
 	maxed:				false,
 	triangles:			false,
+	autoplay_delay:		50, 
 	info_font_size:		24,
 };
 

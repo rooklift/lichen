@@ -26,5 +26,5 @@
 		hub.forward_auto();
 	}
 
-	setTimeout(autoplay_spinner, 50);
+	setTimeout(autoplay_spinner, config.autoplay_delay);
 })();
