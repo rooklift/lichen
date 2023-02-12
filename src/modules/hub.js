@@ -17,6 +17,7 @@ function init() {
 	ret.replay = null;
 	ret.index = 0;
 	ret.selection = null;
+	ret.mouse = null;
 	ret.canvas = document.getElementById("canvas");
 	ret.infodiv = document.getElementById("info");
 
@@ -67,6 +68,7 @@ let hub_main_props = {
 
 		this.index = 0;
 		this.selection = null;
+		this.mouse = null;
 
 		ipcRenderer.send("set_title", `${this.replay.name_0} vs ${this.replay.name_1}`);
 		this.draw();
@@ -89,25 +91,48 @@ let hub_main_props = {
 		this.draw();
 	},
 
-	click: function(cx, cy) {
+	click: function(mx, my) {
 
 		if (!this.replay) {
 			return;
 		}
 
 		let cell_size = calculate_square_size(this.canvas, this.replay.width, this.replay.height);
-		let draw_width = cell_size * this.replay.width;
-		let draw_height = cell_size * this.replay.height;
-
-		let x = Math.floor((cx / draw_width) * this.replay.width);
-		let y = Math.floor((cy / draw_height) * this.replay.height);
+		let x = Math.floor(mx / cell_size);
+		let y = Math.floor(my / cell_size);
 
 		if (x < 0 || x >= this.replay.width || y < 0 || y >= this.replay.height) {
 			return;
 		}
 
-		this.selection = hub.replay.what_is_at(this.index, x, y);
+		this.selection = this.replay.what_is_at(this.index, x, y);
+		this.mouse = null;
 		this.draw();
+	},
+
+	mouseover: function(mx, my) {
+
+		if (!this.replay || this.selection) {
+			return;
+		}
+
+		let old_val = this.mouse;
+
+		let cell_size = calculate_square_size(this.canvas, this.replay.width, this.replay.height);
+		let x = Math.floor(mx / cell_size);
+		let y = Math.floor(my / cell_size);
+
+		if (x < 0 || x >= this.replay.width || y < 0 || y >= this.replay.height) {
+			this.mouse = null;
+			if (old_val) {
+				this.draw();
+			}
+		} else {
+			this.mouse = {x, y};
+			if (!old_val || old_val.x !== x || old_val.y !== y) {
+				this.draw();
+			}
+		}
 	},
 
 	backward: function(n) {
@@ -125,7 +150,7 @@ let hub_main_props = {
 	},
 
 	draw: function() {
-		draw(this.replay, this.index, this.canvas, this.infodiv, this.selection);
+		draw(this.replay, this.index, this.canvas, this.infodiv, this.selection, this.mouse);
 	},
 
 	clear_selection: function() {

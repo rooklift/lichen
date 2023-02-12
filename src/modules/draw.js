@@ -18,7 +18,13 @@ function calculate_square_size(canvas, map_width, map_height) {
 	return Math.floor(Math.min(foo, bar));
 }
 
-function draw(replay, index, canvas, infodiv, selection) {
+function draw(replay, index, canvas, infodiv, selection, mouse) {
+
+	if (!selection) {
+		if (mouse) {
+			selection = replay.what_is_at(index, mouse.x, mouse.y);
+		}
+	}
 
 	canvas.height = window.innerHeight;
 	canvas.width = canvas.height;

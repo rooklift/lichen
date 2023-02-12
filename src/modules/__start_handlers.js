@@ -63,3 +63,9 @@ canvas.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	hub.click(event.offsetX, event.offsetY);
 });
+
+for (let s of ["mousemove", "mouseleave"]) {
+	canvas.addEventListener(s, (event) => {
+		hub.mouseover(event.offsetX, event.offsetY);
+	});
+}
