@@ -63,7 +63,7 @@ function draw(replay, index, canvas, selection, mouse) {
 		let [x, y] = factory.pos;
 		let x1 = (x - 1) * cell_size;
 		let y1 = (y - 1) * cell_size;
-		let ln = config.gridlines ? cell_size * 3 + 1 : cell_size * 3;
+		let ln = cell_size * 3;
 		ctx.fillStyle = factory_colours[factory.team_id];
 		ctx.fillRect(x1, y1, ln, ln);
 	}
@@ -137,11 +137,11 @@ function fill_cell(colour, ctx, cell_size, x, y) {
 
 function fill_circle(colour, ctx, cell_size, x, y) {
 	ctx.fillStyle = colour;
-	let gx = x * cell_size + (cell_size / 2) + 0.5;
-	let gy = y * cell_size + (cell_size / 2) + 0.5;
-	if (!config.gridlines) {
-		gx -= 0.5;
-		gy -= 0.5;
+	let gx = x * cell_size + (cell_size / 2);
+	let gy = y * cell_size + (cell_size / 2);
+	if (config.gridlines) {
+		gx += 0.5;
+		gy += 0.5;
 	}
 	ctx.beginPath();
 	ctx.arc(gx, gy, Math.max(cell_size / 2 - 2, 1), 0, 2 * Math.PI);
