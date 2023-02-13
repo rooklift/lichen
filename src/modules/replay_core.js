@@ -230,7 +230,7 @@ const replay_prototype = {
 	unit_direction: function(i, s) {				// Note: does not consider whether the move will succeed.
 		let unit = this.get_unit_by_id(i, s);
 		if (!unit) {
-			return 0;
+			return enums.CENTRE;
 		}
 		let queue;
 		let request = this.unit_request(i, s);
@@ -240,10 +240,10 @@ const replay_prototype = {
 			queue = unit.action_queue;
 		}
 		if (queue.length === 0) {
-			return 0;
+			return enums.CENTRE;
 		}
 		if (queue[0][0] !== enums.MOVE) {
-			return 0;
+			return enums.CENTRE;
 		}
 		return queue[0][1];
 	},
