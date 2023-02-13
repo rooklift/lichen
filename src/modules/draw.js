@@ -26,10 +26,6 @@ function draw(replay, index, canvas, selection, mouse) {
 
 	var ctx = canvas.getContext("2d");
 
-	if (!replay) {
-		return;
-	}
-
 	let cell_size = calculate_square_size(canvas, replay.width, replay.height);
 
 	ctx.fillStyle = "#ffffffff";

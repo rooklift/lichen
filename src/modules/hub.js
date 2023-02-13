@@ -79,14 +79,13 @@ let hub_main_props = {
 
 	set_index: function(i) {
 		if (!this.replay) {
+			return;
+		}
+		if (i < 0) {
 			i = 0;
-		} else {
-			if (i < 0) {
-				i = 0;
-			} else if (i >= this.replay.steps) {
-				i = this.replay.steps - 1;
-				this.set("autoplay", false);
-			}
+		} else if (i >= this.replay.steps) {
+			i = this.replay.steps - 1;
+			this.set("autoplay", false);
 		}
 		this.index = i;
 		this.draw();
@@ -151,8 +150,10 @@ let hub_main_props = {
 	},
 
 	draw: function() {
-		draw(this.replay, this.index, this.canvas, this.selection, this.mouse);
-		draw_info(this.replay, this.index, this.infodiv, this.selection, this.mouse);
+		if (this.replay) {
+			draw(this.replay, this.index, this.canvas, this.selection, this.mouse);
+			draw_info(this.replay, this.index, this.infodiv, this.selection, this.mouse);
+		}
 	},
 
 	clear_selection: function() {
