@@ -180,7 +180,7 @@ const replay_prototype = {
 			return null;
 		}
 		let request = all_player_actions[unit.unit_id];
-		if (!request) {
+		if (!Array.isArray(request)) {
 			return null;
 		}
 		return request;
