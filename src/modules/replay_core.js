@@ -207,7 +207,7 @@ const replay_prototype = {
 			return null;
 		}
 		let request = all_player_actions[factory.unit_id];
-		if (request === undefined) {				// Note that it could be 0
+		if (typeof request !== "number") {			// Note that it could be 0
 			return null;
 		}
 		return request;
@@ -234,7 +234,7 @@ const replay_prototype = {
 		}
 		let queue;
 		let request = this.unit_request(i, s);
-		if (request && this.unit_can_receive_request(i, s)) {
+		if (Array.isArray(request) && this.unit_can_receive_request(i, s)) {
 			queue = request;
 		} else {
 			queue = unit.action_queue;
@@ -242,7 +242,7 @@ const replay_prototype = {
 		if (queue.length === 0) {
 			return enums.CENTRE;
 		}
-		if (queue[0][0] !== enums.MOVE) {
+		if (!Array.isArray(queue[0]) || queue[0][0] !== enums.MOVE) {
 			return enums.CENTRE;
 		}
 		return queue[0][1];

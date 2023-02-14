@@ -51,7 +51,7 @@ function unit_info_lines(replay, index, unit) {
 	let queue;
 	let power_left = unit.power;
 	let request = replay.unit_request(index, unit.unit_id);
-	if (request) {							// Which might be []
+	if (Array.isArray(request)) {								// Which might be []
 		queue = request;
 		power_left -= replay.cfg.ROBOTS[unit.unit_type].ACTION_QUEUE_POWER_COST;
 		lines.push(`<span class="player_${unit.team_id}">New request issued:</span>`);
@@ -60,7 +60,7 @@ function unit_info_lines(replay, index, unit) {
 		lines.push(``);
 	}
 	let unable = false;
-	if (queue.length > 0) {
+	if (queue.length > 0 && Array.isArray(queue[0])) {
 		 if (queue[0][0] === enums.MOVE && queue[0][1] !== enums.CENTRE) {
 			let [x, y] = unit.pos;
 			let direction = queue[0][1];
@@ -94,7 +94,7 @@ function unit_info_lines(replay, index, unit) {
 		let action = queue[i];
 		lines.push(`${printable_action(action)} &nbsp; ${unable && i === 0 ? '<span class="warning">(unable)</span>' : ""}`);
 	}
-	if (request && !replay.unit_can_receive_request(index, unit.unit_id)) {
+	if (Array.isArray(request) && !replay.unit_can_receive_request(index, unit.unit_id)) {
 		lines.push(`<span class="warning">Unit cannot receive this request!</span>`);
 	}
 

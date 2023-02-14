@@ -33,6 +33,10 @@ exports.printable_action = function(action) {
 	const directions = ["centre", "up", "right", "down", "left"];
 	const resources = ["ice", "ore", "water", "metal", "power"];
 
+	if (!Array.isArray(action)) {
+		return "??"
+	}
+
 	if (action[0] === exports.enums.MOVE) {
 		return `Move ${directions[action[1]]} ${action[5]} ${action[4] ? "r" : ""}`;
 	}
