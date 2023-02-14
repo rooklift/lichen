@@ -75,3 +75,11 @@ for (let s of ["mousemove", "mouseleave"]) {
 		hub.mouseover(event.offsetX, event.offsetY);
 	});
 }
+
+window.addEventListener("wheel", (event) => {
+	if (!event.deltaY) {
+		return;
+	}
+	if (event.deltaY < 0) hub.backward(1);
+	if (event.deltaY > 0) hub.forward(1);
+});
