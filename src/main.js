@@ -272,6 +272,35 @@ function menu_build() {
 						win.webContents.send("toggle", "autoplay");
 					}
 				},
+				{
+					label: "Delay",
+					submenu: [
+						{
+							label: "100",
+							type: "checkbox",
+							checked: config.autoplay_delay === 100,
+							click: () => {
+								win.webContents.send("set", {autoplay_delay: 100})
+							}
+						},
+						{
+							label: "50",
+							type: "checkbox",
+							checked: config.autoplay_delay === 50,
+							click: () => {
+								win.webContents.send("set", {autoplay_delay: 50})
+							}
+						},
+						{
+							label: "25",
+							type: "checkbox",
+							checked: config.autoplay_delay === 25,
+							click: () => {
+								win.webContents.send("set", {autoplay_delay: 25})
+							}
+						},
+					]
+				},
 			]
 		},
 		{

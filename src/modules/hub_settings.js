@@ -2,11 +2,14 @@
 
 const {ipcRenderer} = require("electron");
 
-const multichecks = {};
+const multichecks = {
+	autoplay_delay:		["Step", "Delay"],
+};
+
 const togglechecks = {
-	autoplay: 		["Step", "Autoplay"],
-	triangles:		["Misc", "Light triangles"],
-	gridlines:		["Misc", "Gridlines"],
+	autoplay: 			["Step", "Autoplay"],
+	triangles:			["Misc", "Light triangles"],
+	gridlines:			["Misc", "Gridlines"],
 };
 
 for (let menupath of Object.values(multichecks)) {
