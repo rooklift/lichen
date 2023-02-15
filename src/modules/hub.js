@@ -71,7 +71,7 @@ let hub_main_props = {
 		this.selection = null;
 		this.mouse = null;
 
-		ipcRenderer.send("set_title", `${this.replay.name_0} vs ${this.replay.name_1}`);
+		ipcRenderer.send("set_title", `${path.basename(filepath)} - ${this.replay.name_0} vs ${this.replay.name_1}`);
 		this.draw();
 
 		console.log(`Loaded ${path.basename(filepath)} in ${((performance.now() - starttime) / 1000).toFixed(1)} seconds.`);
