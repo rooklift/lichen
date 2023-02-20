@@ -9,11 +9,13 @@ function load_local_replay(r) {
 	let size = r.observations[0].board.rubble.length;
 	let name_0;
 	let name_1;
+	let seed;
 
 	try { name_0 = r.actions[0].player_0.faction || "Unknown"; } catch (err) { name_0 = "Unknown"; }
 	try { name_1 = r.actions[0].player_1.faction || "Unknown"; } catch (err) { name_1 = "Unknown"; }
+	try { seed = r.metadata.seed || null; } catch (err) { seed = null; }
 
-	let ret = new_replay(cfg, steps, size, size, name_0, name_1);
+	let ret = new_replay(cfg, steps, size, size, name_0, name_1, seed);
 
 	ret.init(r.observations, r.actions);
 	return ret;
@@ -26,8 +28,11 @@ function load_kaggle_replay(r) {
 	let size = cfg.map_size;
 	let name_0 = r.info.TeamNames[0];
 	let name_1 = r.info.TeamNames[1];
+	let seed;
+
+	try { seed = r.configuration.seed || null; } catch (err) { seed = null; }
 	
-	let ret = new_replay(cfg, steps, size, size, name_0, name_1);
+	let ret = new_replay(cfg, steps, size, size, name_0, name_1, seed);
 
 	let all_observations = r.steps.map(foo => JSON.parse(foo[0].observation.obs));
 

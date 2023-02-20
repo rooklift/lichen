@@ -37,6 +37,8 @@ function draw_info(replay, index, infodiv, selection, mouse) {
 		} else if (selection.type === "tile") {
 			lines = lines.concat(cell_info_lines(replay, index, selection));
 		}
+	} else if (typeof(replay.seed) === "number") {
+		lines.push(`Map seed: ${replay.seed}`);
 	}
 	infodiv.innerHTML = summary_table(replay, index) + `<br>` + lines.join("<br>\n");
 }

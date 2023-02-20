@@ -3,7 +3,7 @@
 const {enums, new_selection} = require("./types");
 const {new_2d_array, copy_2d_array} = require("./utils");
 
-function new_replay(cfg, steps, width, height, name_0, name_1) {
+function new_replay(cfg, steps, width, height, name_0, name_1, seed) {
 
 	let ret = Object.create(replay_prototype);
 
@@ -13,6 +13,7 @@ function new_replay(cfg, steps, width, height, name_0, name_1) {
 	ret.height = height;
 	ret.name_0 = name_0;
 	ret.name_1 = name_1;
+	ret.seed = seed;
 
 	ret.observations = null;
 	ret.actions = null;
