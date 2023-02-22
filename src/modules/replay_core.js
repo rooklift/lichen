@@ -102,6 +102,13 @@ const replay_prototype = {
 		return real_step % this.cfg.CYCLE_LENGTH >= this.cfg.DAY_LENGTH;
 	},
 
+	bids: function() {
+		let ret = [0, 0];
+		try { ret[0] = this.actions[0].player_0.bid || 0; } catch (err) { ret[0] = 0; }
+		try { ret[1] = this.actions[0].player_1.bid || 0; } catch (err) { ret[1] = 0; }
+		return ret;
+	},
+
 	cell_type: function(x, y) {
 		return this.map[x][y];
 	},

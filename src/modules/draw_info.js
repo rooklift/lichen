@@ -37,10 +37,22 @@ function draw_info(replay, index, infodiv, selection, mouse) {
 		} else if (selection.type === "tile") {
 			lines = lines.concat(cell_info_lines(replay, index, selection));
 		}
-	} else if (typeof(replay.seed) === "number") {
-		lines.push(`Map seed: ${replay.seed}`);
+	} else if (index === 0) {
+		lines = lines.concat(turn_0_lines(replay));
 	}
 	infodiv.innerHTML = summary_table(replay, index) + `<br>` + lines.join("<br>\n");
+}
+
+function turn_0_lines(replay) {
+	let lines = [];
+	let bids = replay.bids();
+	if (typeof(replay.seed) === "number") {
+		lines.push(`Map seed: ${replay.seed}`);
+	}
+	lines.push(``);
+	lines.push(`<span class="player_0">Player 0 bids ${bids[0]}</span>`);
+	lines.push(`<span class="player_1">Player 1 bids ${bids[1]}</span>`);
+	return lines;
 }
 
 function unit_info_lines(replay, index, unit) {
