@@ -34,7 +34,7 @@ exports.printable_action = function(action) {
 	const resources = ["ice", "ore", "water", "metal", "power"];
 
 	if (!Array.isArray(action)) {
-		return "??"
+		return "??";
 	}
 
 	if (action[0] === exports.enums.MOVE) {

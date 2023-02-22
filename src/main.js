@@ -280,7 +280,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoplay_delay === 100,
 							click: () => {
-								win.webContents.send("set", {autoplay_delay: 100})
+								win.webContents.send("set", {autoplay_delay: 100});
 							}
 						},
 						{
@@ -288,7 +288,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoplay_delay === 50,
 							click: () => {
-								win.webContents.send("set", {autoplay_delay: 50})
+								win.webContents.send("set", {autoplay_delay: 50});
 							}
 						},
 						{
@@ -296,7 +296,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoplay_delay === 25,
 							click: () => {
-								win.webContents.send("set", {autoplay_delay: 25})
+								win.webContents.send("set", {autoplay_delay: 25});
 							}
 						},
 					]

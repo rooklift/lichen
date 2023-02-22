@@ -303,7 +303,7 @@ const replay_prototype = {
 		};
 		for (let unit of this.get_units(i)) {
 			let player_name = `player_${unit.team_id}`;
-			let rtype = unit.unit_type
+			let rtype = unit.unit_type;
 			ret[player_name][rtype]++;
 		}
 		return ret;
